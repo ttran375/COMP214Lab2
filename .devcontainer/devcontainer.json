@@ -1,0 +1,12 @@
+{
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"GitHub.copilot",
+				"streetsidesoftware.code-spell-checker",
+				"Oracle.oracledevtools",
+				"vsls-contrib.gitdoc"
+			]
+		}
+	}
+}

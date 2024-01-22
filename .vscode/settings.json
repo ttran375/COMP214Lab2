@@ -2,5 +2,6 @@
   "gitdoc.enabled": true,
   "git.autofetch": true,
   "gitdoc.autoCommitDelay": 60000,
-  "gitdoc.commitMessageFormat": "ccc, LLL d, y, h:mm a '+00:00'"
+  "gitdoc.commitMessageFormat": "ccc, LLL d, y, h:mm a '+00:00'",
+  "editor.rulers": [80,120]
 }

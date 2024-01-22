@@ -44,32 +44,43 @@ FROM
 WHERE
     TABLE_NAME = 'HOMEWORK13';
 
--- 5. Create REORDERINFO view
+-- 5. Create a view that lists the ISBN and title for each book in inventory along with the name and phone number of the person to contact if the book needs to be reordered. Name the view REORDERINFO.
 CREATE VIEW REORDERINFO AS
-SELECT b.ISBN, b.Title, p.Name AS Contact_Name, p.Phone AS Contact_Phone
-FROM Books b
-JOIN Publisher p ON b.PubID = p.PubID;
+    SELECT
+        B.ISBN,
+        B.TITLE,
+        P.NAME  AS PUBLISHERNAME,
+        P.PHONE AS PUBLISHERPHONE
+    FROM
+        BOOKS     B
+        JOIN PUBLISHER P
+        ON B.PUBID = P.PUBID;
 
--- 6. Try to change the name of a contact person
--- This may or may not work depending on the view's updatable nature and your table structure.
--- If an error occurs, it could be due to non-updatable view or lack of update privileges.
-UPDATE REORDERINFO SET Contact_Name = 'Your Name' WHERE ISBN = 'YourISBN';
+-- 6. Try to change the name of a contact person in the REORDERINFO view to your name. Was an error message displayed when performing this step? If so, what was the cause of the error message?
+UPDATE REORDERINFO
+SET
+    PUBLISHERNAME = 'YourName'
+WHERE
+    ISBN = '1059831198';
 
--- 7. Try to change the ISBN of a book
--- Similar to #6, this depends on the updatable nature of the view and your table structure.
--- If an error occurs, it could be due to non-updatable view or lack of update privileges.
-UPDATE REORDERINFO SET ISBN = 'NewISBN' WHERE ISBN = 'OldISBN';
+-- 7. Select one of the books in the REORDERINFO view and try to change its ISBN. Was an error message displayed when performing this step? If so, what was the cause of the error message?
+UPDATE REORDERINFO
+SET
+    ISBN = 'NewISBN'
+WHERE
+    ISBN = '1059831198';
 
--- 8. Delete a record from REORDERINFO
--- If there is an error, it could be due to non-updatable view or lack of delete privileges.
-DELETE FROM REORDERINFO WHERE Contact_Name = 'Your Name';
+-- 8. Delete the record in the REORDERINFO view containing your name. (If you weren’t able to perform #6 successfully, delete one of the contacts already listed in the table.) Was an error message displayed when performing this step? If so, what was the cause of the error message?
+DELETE FROM REORDERINFO
+WHERE
+    PUBLISHERNAME = 'YourName' 
+    
 
--- 9. Rollback changes
+-- 9. Issue a rollback command to undo any changes made with the preceding DML operations.
 ROLLBACK;
 
--- 10. Delete the REORDERINFO view
+-- 10. Delete the REORDERINFO view.
 DROP VIEW REORDERINFO;
-
 
 -- # Lab Exercises Module 2 - Database Objects
 
@@ -179,3 +190,31 @@ CREATE SYNONYM cj_crimes FOR Crimes;
 -- Queries can then use cj_criminals and cj_crimes instead of Criminals and Crimes.
 
 -- Note: Adjust column names and table names based on your actual database schema.
+
+
+CREATE VIEW CONTACT AS
+    SELECT
+        NAME    AS PUBLISHERNAME,
+        CONTACT AS CONTACTPERSON,
+        PHONE   AS CONTACTPHONE
+    FROM
+        PUBLISHER;
+
+REVOKE ALL ON CONTACT FROM PUBLIC;
+
+CREATE FORCE VIEW HOMEWORK13 AS
+    SELECT
+        COL1,
+        COL2
+    FROM
+        FIRSTATTEMPT;
+
+SELECT
+    *
+FROM
+    USER_TAB_COLUMNS
+WHERE
+    TABLE_NAME = 'HOMEWORK13';
+
+
+

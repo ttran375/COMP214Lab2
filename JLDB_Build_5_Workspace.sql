@@ -12,9 +12,12 @@ CREATE VIEW CONTACT AS
 SELECT Name AS Publisher_Name, Contact AS Contact_Person, Phone AS Contact_Phone
 FROM Publisher;
 
-SELECT * FROM CONTACT;
-
 -- 2. Change the CONTACT view so that no users can accidentally perform DML operations on the view.
+CREATE VIEW CONTACT AS
+SELECT Name AS Publisher_Name, Contact AS Contact_Person, Phone AS Contact_Phone
+FROM Publisher
+WITH READ ONLY;
+
 -- 3. Create a view called HOMEWORK13 that includes the columns named Col1 and Col2 from the FIRSTATTEMPT table. Make sure the view is created even if the FIRSTATTEMPT table doesn’t exist.
 -- 4. Attempt to view the structure of the HOMEWORK13 view.
 -- 5. Create a view that lists the ISBN and title for each book in inventory along with the name and phone number of the person to contact if the book needs to be reordered. Name the view REORDERINFO.

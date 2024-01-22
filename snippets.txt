@@ -43,3 +43,5 @@ echo 'export PATH=$PATH:$ORACLE_HOME' >> ~/.bashrc
 echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME' >> ~/.bashrc
 source ~/.bashrc
 sqlplus COMP214_W24_nic_x/password@199.212.26.208:1521/SQLD
+SQL > @script.sql
+SQL > @JLDB_Build_5.sql

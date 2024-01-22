@@ -10,10 +10,9 @@
                 "adpyke.vscode-sql-formatter",
                 "apng.orclapex-autocomplete",
                 "casian.plsql",
-                "mp.vscode-oracle-format",
                 "mycelo.oracle-plsql",
                 "xyz.plsql-language",
-                "streetsidesoftware.code-spell-checker",
+                "streetsidesoftware.code-spell-checker"
 			]
 		}
 	}

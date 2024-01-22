@@ -19,7 +19,16 @@ FROM Publisher
 WITH READ ONLY;
 
 -- 3. Create a view called HOMEWORK13 that includes the columns named Col1 and Col2 from the FIRSTATTEMPT table. Make sure the view is created even if the FIRSTATTEMPT table doesn’t exist.
+CREATE OR REPLACE VIEW HOMEWORK13 AS
+SELECT Col1, Col2
+FROM FIRSTATTEMPT;
+
 -- 4. Attempt to view the structure of the HOMEWORK13 view.
+-- Assuming you have the necessary privileges to query data dictionary views
+SELECT column_name, data_type, data_length
+FROM all_tab_columns
+WHERE table_name = 'HOMEWORK13';
+
 -- 5. Create a view that lists the ISBN and title for each book in inventory along with the name and phone number of the person to contact if the book needs to be reordered. Name the view REORDERINFO.
 -- 6. Try to change the name of a contact person in the REORDERINFO view to your name. Was an error message displayed when performing this step? If so, what was the cause of the error message?
 -- 7. Select one of the books in the REORDERINFO view and try to change its ISBN. Was an error message displayed when performing this step? If so, what was the cause of the error message?

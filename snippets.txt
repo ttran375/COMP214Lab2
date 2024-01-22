@@ -1,3 +1,4 @@
+// Drop all tables
 BEGIN
    FOR t IN (SELECT table_name FROM user_tables) LOOP
       EXECUTE IMMEDIATE 'DROP TABLE ' || t.table_name || ' CASCADE CONSTRAINTS';
@@ -5,5 +6,40 @@ BEGIN
 END;
 /
 
+// Drop all objects
+BEGIN
+   FOR t IN (SELECT table_name FROM user_tables) LOOP
+      EXECUTE IMMEDIATE ('DROP TABLE ' || t.table_name || ' CASCADE CONSTRAINTS');
+   END LOOP;
+   FOR s IN (SELECT sequence_name FROM user_sequences) LOOP
+      EXECUTE IMMEDIATE ('DROP SEQUENCE ' || s.sequence_name);
+   END LOOP;
+   FOR v IN (SELECT view_name FROM user_views) LOOP
+      EXECUTE IMMEDIATE ('DROP VIEW ' || v.view_name);
+   END LOOP;
+   FOR p IN (SELECT procedure_name FROM user_procedures) LOOP
+      EXECUTE IMMEDIATE ('DROP PROCEDURE ' || p.procedure_name);
+   END LOOP;
+END;
+/
+
+// Drop all sequences
+FOR s IN (SELECT sequence_name FROM user_sequences) LOOP
+   EXECUTE IMMEDIATE ('DROP SEQUENCE ' || s.sequence_name);
+END LOOP;
+
 docker pull github/super-linter:latest
 docker run -e RUN_LOCAL=true -v "$(pwd)":/tmp/lint github/super-linter
+
+// sqlplus
+sudo apt-get update
+sudo apt-get install -y libaio1 wget unzip
+wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basiclite-linux.x64-21.1.0.0.0.zip
+wget https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sqlplus-linux.x64-21.1.0.0.0.zip
+unzip instantclient-basiclite-linux.x64-21.1.0.0.0.zip -d /opt/oracle
+unzip instantclient-sqlplus-linux.x64-21.1.0.0.0.zip -d /opt/oracle
+echo 'export ORACLE_HOME=/opt/oracle/instantclient_21_1' >> ~/.bashrc
+echo 'export PATH=$PATH:$ORACLE_HOME' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ORACLE_HOME' >> ~/.bashrc
+source ~/.bashrc
+sqlplus COMP214_W24_nic_x/password@199.212.26.208:1521/SQLD

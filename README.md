@@ -7,6 +7,7 @@ Boston: Course Technology.
 Chapter 13
 
 To perform the following activities, refer to the tables in the JustLee Books database.
+
 1. Create a view that lists the name and phone number of the contact person at each publisher. Don’t include the publisher’s ID in the view. Name the view CONTACT.
 2. Change the CONTACT view so that no users can accidentally perform DML operations on the view.
 3. Create a view called HOMEWORK13 that includes the columns named Col1 and Col2 from the FIRSTATTEMPT table. Make sure the view is created even if the FIRSTATTEMPT table doesn’t exist.

@@ -34,7 +34,6 @@ CREATE OR REPLACE VIEW HOMEWORK13 AS
         FIRSTATTEMPT;
 
 -- 4. Attempt to view the structure of the HOMEWORK13 view.
--- Assuming you have the necessary privileges to query data dictionary views
 SELECT
     COLUMN_NAME,
     DATA_TYPE,
@@ -92,7 +91,7 @@ DROP VIEW REORDERINFO;
 
 -- To perform the following assignments, refer to the tables in the JustLee Books database.
 
--- 1. Create a sequence for populating the Customer# column of the CUSTOMERS table.
+-- 1. Create a sequence for populating the Customer# column of the CUSTOMERS table. When setting the start and increment values, keep in mind that data already exists in this table. The options should be set to not cycle the values and not cache any values, and no minimum or maximum values should be declared.
 CREATE SEQUENCE customer_seq
   START WITH 1
   INCREMENT BY 1
@@ -215,6 +214,3 @@ FROM
     USER_TAB_COLUMNS
 WHERE
     TABLE_NAME = 'HOMEWORK13';
-
-
-

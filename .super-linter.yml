@@ -1,9 +1,0 @@
-# Specify the languages you want to lint
-languages:
-  - plsql
-
-# PL/SQL linting configuration
-plsql:
-  enabled: true
-  options: 
-    # Additional options for the PL/SQL linter (if needed)

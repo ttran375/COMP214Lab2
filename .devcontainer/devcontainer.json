@@ -3,9 +3,17 @@
 		"vscode": {
 			"extensions": [
 				"GitHub.copilot",
-				"streetsidesoftware.code-spell-checker",
-				"Oracle.oracledevtools",
-				"vsls-contrib.gitdoc"
+                "vsls-contrib.gitdoc",
+                "CrappyCodeMaker.ccm-plsql-oracle",
+                "EwanDubashinski.plsqllint",
+                "Oracle.oracledevtools",
+                "adpyke.vscode-sql-formatter",
+                "apng.orclapex-autocomplete",
+                "casian.plsql",
+                "mp.vscode-oracle-format",
+                "mycelo.oracle-plsql",
+                "xyz.plsql-language",
+                "streetsidesoftware.code-spell-checker",
 			]
 		}
 	}

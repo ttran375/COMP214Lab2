@@ -9,25 +9,40 @@
 -- To perform the following activities, refer to the tables in the JustLee Books database.
 -- 1. Create a view that lists the name and phone number of the contact person at each publisher. Don’t include the publisher’s ID in the view. Name the view CONTACT.
 CREATE VIEW CONTACT AS
-SELECT Name AS Publisher_Name, Contact AS Contact_Person, Phone AS Contact_Phone
-FROM Publisher;
+    SELECT
+        NAME    AS PUBLISHER_NAME,
+        CONTACT AS CONTACT_PERSON,
+        PHONE   AS CONTACT_PHONE
+    FROM
+        PUBLISHER;
 
 -- 2. Change the CONTACT view so that no users can accidentally perform DML operations on the view.
 CREATE VIEW CONTACT AS
-SELECT Name AS Publisher_Name, Contact AS Contact_Person, Phone AS Contact_Phone
-FROM Publisher
-WITH READ ONLY;
+    SELECT
+        NAME    AS PUBLISHER_NAME,
+        CONTACT AS CONTACT_PERSON,
+        PHONE   AS CONTACT_PHONE
+    FROM
+        PUBLISHER WITH READ ONLY;
 
 -- 3. Create a view called HOMEWORK13 that includes the columns named Col1 and Col2 from the FIRSTATTEMPT table. Make sure the view is created even if the FIRSTATTEMPT table doesn’t exist.
 CREATE OR REPLACE VIEW HOMEWORK13 AS
-SELECT Col1, Col2
-FROM FIRSTATTEMPT;
+    SELECT
+        COL1,
+        COL2
+    FROM
+        FIRSTATTEMPT;
 
 -- 4. Attempt to view the structure of the HOMEWORK13 view.
 -- Assuming you have the necessary privileges to query data dictionary views
-SELECT column_name, data_type, data_length
-FROM all_tab_columns
-WHERE table_name = 'HOMEWORK13';
+SELECT
+    COLUMN_NAME,
+    DATA_TYPE,
+    DATA_LENGTH
+FROM
+    ALL_TAB_COLUMNS
+WHERE
+    TABLE_NAME = 'HOMEWORK13';
 
 -- 5. Create a view that lists the ISBN and title for each book in inventory along with the name and phone number of the person to contact if the book needs to be reordered. Name the view REORDERINFO.
 -- 6. Try to change the name of a contact person in the REORDERINFO view to your name. Was an error message displayed when performing this step? If so, what was the cause of the error message?

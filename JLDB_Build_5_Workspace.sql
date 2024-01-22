@@ -7,6 +7,7 @@
 -- Chapter 13
 
 -- To perform the following activities, refer to the tables in the JustLee Books database.
+
 -- 1. Create a view that lists the name and phone number of the contact person at each publisher. Don’t include the publisher’s ID in the view. Name the view CONTACT.
 CREATE VIEW CONTACT AS
     SELECT
@@ -26,7 +27,7 @@ CREATE VIEW CONTACT AS
         PUBLISHER WITH READ ONLY;
 
 -- 3. Create a view called HOMEWORK13 that includes the columns named Col1 and Col2 from the FIRSTATTEMPT table. Make sure the view is created even if the FIRSTATTEMPT table doesn’t exist.
-CREATE OR REPLACE VIEW HOMEWORK13 AS
+CREATE FORCE VIEW HOMEWORK13 AS
     SELECT
         COL1,
         COL2
@@ -134,7 +135,7 @@ DROP SEQUENCE my_first_seq;
 CREATE BITMAP INDEX idx_customers_state ON CUSTOMERS(State);
 
 -- 8. Verify that the index exists,
-SELECT index_name FROM user_indexes WHERE table_name = 'CUSTOMERS' AND index_name = 'IDX_CUSTOMERS_STATE';
+SELECT index_name FROM user_indexes;
 
 -- 8. and then delete the index.
 DROP INDEX idx_customers_state;
@@ -143,7 +144,7 @@ DROP INDEX idx_customers_state;
 CREATE INDEX idx_customers_lastname ON CUSTOMERS(LastName);
 
 -- 9. Verify that the index exists by querying the data dictionary.
-SELECT index_name FROM user_indexes WHERE table_name = 'CUSTOMERS' AND index_name = 'IDX_CUSTOMERS_LASTNAME';
+SELECT index_name FROM user_indexes;
 
 -- 9. Remove the index from the database.
 DROP INDEX idx_customers_lastname;

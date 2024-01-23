@@ -9,13 +9,16 @@
 -- already exists in this table. The options should be set to not cycle the
 -- values and not cache any values, and no minimum or maximum values should be
 -- declared.
-CREATE SEQUENCE CUSTOMERS_CUSTOMER#_SEQ
-INCREMENT BY 1
+SELECT
+    MAX(CUSTOMER#)
+FROM
+    CUSTOMERS;
+
+CREATE SEQUENCE CUSTOMERS_CUSTOMER#_seq
 START WITH 1020
-NOCACHE
-NOMINVALUE
-NOMAXVALUE
-NOCYCLE;
+INCREMENT BY 1
+NOCYCLE
+NOCACHE;
 
 -- 2. Add a new customer row by using the sequence created in Question 1. The
 -- only data currently available for the customer is as follows:
@@ -25,20 +28,19 @@ INSERT INTO CUSTOMERS (
     LASTNAME,
     FIRSTNAME,
     ZIP
-) VALUES(
-    CUSTOMERS_CUSTOMER#_SEQ.NEXTVAL,
+) VALUES (
+    CUSTOMERS_CUSTOMER#_seq.NEXTVAL,
     'Shoulders',
     'Frank',
-    23567
+    '23567'
 );
 
-select * from CUSTOMERS
+select * from CUSTOMERS;
 -- 3. Create a sequence that generates integers starting with the value 5. Each
 -- value should be three less than the previous value generated. The lowest
 -- possible value should be 0, and the sequence shouldn’t be allowed to cycle.
 -- Name the sequence MY_FIRST_SEQ.
-CREATE SEQUENCE MY_FIRST_SEQ
-START WITH 5 INCREMENT BY -3 MINVALUE 0 MAXVALUE 5 NOCYCLE;
+CREATE SEQUENCE MY_FIRST_SEQ START WITH 5 INCREMENT BY -3 MINVALUE 0 MAXVALUE 5 NOCYCLE;
 
 -- 4. Issue a SELECT statement that displays NEXTVAL for MY_FIRST_SEQ three
 -- times. Because the value isn’t being placed in a table, use the DUAL table
@@ -59,13 +61,19 @@ SELECT
 FROM
     DUAL;
 
--- Causes an error
+-- SELECT
+-- *
+-- ERROR at line 58:
+-- ORA-08004: sequence MY_FIRST_SEQ.NEXTVAL goes below MINVALUE and cannot be
+-- instantiated
+
 -- 5. Change the setting of MY_FIRST_SEQ so that the minimum value that can be
 -- generated is -1000.
 ALTER SEQUENCE MY_FIRST_SEQ MINVALUE -1000;
 
 -- 6. Create a private synonym that enables you to reference the MY_FIRST_SEQ
 -- object as NUMGEN.
+-- GRANT CREATE SYNONYM TO YOUR_USERNAME;
 CREATE SYNONYM NUMGEN FOR MY_FIRST_SEQ;
 
 -- 7. Use a SELECT statement to view the CURRVAL of NUMGEN.

@@ -9,22 +9,13 @@
 -- already exists in this table. The options should be set to not cycle the
 -- values and not cache any values, and no minimum or maximum values should be
 -- declared.
-DECLARE
-    MAXVALUE NUMBER;
-BEGIN
-    SELECT
-        MAX(CUSTOMER#) INTO MAXVALUE
-    FROM
-        CUSTOMERS;
-    EXECUTE IMMEDIATE 'CREATE SEQUENCE MY_ZEROTH_SEQ START WITH '
-                      || TO_CHAR(MAXVALUE)
-                      || ' INCREMENT BY 1 NOCACHE NOCYCLE';
-END;
-
-SELECT
-    *
-FROM
-    CUSTOMERS;
+CREATE SEQUENCE CUSTOMERS_CUSTOMER#_SEQ
+INCREMENT BY 1
+START WITH 1021
+NOCACHE
+NOMINVALUE
+NOMAXVALUE
+NOCYCLE;
 
 -- 2. Add a new customer row by using the sequence created in Question 1. The
 -- only data currently available for the customer is as follows:
@@ -35,12 +26,16 @@ INSERT INTO CUSTOMERS (
     FIRSTNAME,
     ZIP
 ) VALUES (
-    MY_ZEROTH_SEQ.NEXTVAL,
+    MY_ZEROTH_SEQ,
     'Shoulders',
     'Frank',
     '23567'
 );
-SELECT * FROM CUSTOMERS;
+
+SELECT
+    *
+FROM
+    CUSTOMERS;
 
 -- 3. Create a sequence that generates integers starting with the value 5. Each
 -- value should be three less than the previous value generated. The lowest

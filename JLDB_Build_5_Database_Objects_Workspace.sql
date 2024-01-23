@@ -11,7 +11,7 @@
 -- declared.
 CREATE SEQUENCE CUSTOMERS_CUSTOMER#_SEQ
 INCREMENT BY 1
-START WITH 1021
+START WITH 1020
 NOCACHE
 NOMINVALUE
 NOMAXVALUE
@@ -25,18 +25,14 @@ INSERT INTO CUSTOMERS (
     LASTNAME,
     FIRSTNAME,
     ZIP
-) VALUES (
-    MY_ZEROTH_SEQ,
+) VALUES(
+    CUSTOMERS_CUSTOMER#_SEQ.NEXTVAL,
     'Shoulders',
     'Frank',
-    '23567'
+    23567
 );
 
-SELECT
-    *
-FROM
-    CUSTOMERS;
-
+select * from CUSTOMERS
 -- 3. Create a sequence that generates integers starting with the value 5. Each
 -- value should be three less than the previous value generated. The lowest
 -- possible value should be 0, and the sequence shouldn’t be allowed to cycle.

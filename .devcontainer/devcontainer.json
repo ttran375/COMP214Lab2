@@ -12,7 +12,8 @@
                 "casian.plsql",
                 "mycelo.oracle-plsql",
                 "xyz.plsql-language",
-                "streetsidesoftware.code-spell-checker"
+                "streetsidesoftware.code-spell-checker",
+                "EditorConfig.EditorConfig"
 			]
 		}
 	}

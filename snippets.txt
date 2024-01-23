@@ -5,37 +5,6 @@ Hostname for off campus connection: 199.212.26.208
 port: 1521
 SID: SQLD
 
-BEGIN
-   FOR t IN (SELECT table_name FROM user_tables) LOOP
-      EXECUTE IMMEDIATE 'DROP TABLE ' || t.table_name || ' CASCADE CONSTRAINTS';
-   END LOOP;
-END;
-/
-
-BEGIN
-   FOR t IN (SELECT table_name FROM user_tables) LOOP
-      EXECUTE IMMEDIATE ('DROP TABLE ' || t.table_name || ' CASCADE CONSTRAINTS');
-   END LOOP;
-   FOR s IN (SELECT sequence_name FROM user_sequences) LOOP
-      EXECUTE IMMEDIATE ('DROP SEQUENCE ' || s.sequence_name);
-   END LOOP;
-   FOR v IN (SELECT view_name FROM user_views) LOOP
-      EXECUTE IMMEDIATE ('DROP VIEW ' || v.view_name);
-   END LOOP;
-   FOR p IN (SELECT procedure_name FROM user_procedures) LOOP
-      EXECUTE IMMEDIATE ('DROP PROCEDURE ' || p.procedure_name);
-   END LOOP;
-END;
-/
-
-BEGIN
-   FOR s IN (SELECT sequence_name FROM user_sequences) LOOP
-      EXECUTE IMMEDIATE ('DROP SEQUENCE ' || s.sequence_name);
-   END LOOP;
-END;
-/
-
-
 docker pull github/super-linter:latest
 docker run -e RUN_LOCAL=true -v "$(pwd)":/tmp/lint github/super-linter
 

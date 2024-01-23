@@ -7,5 +7,6 @@
     80,
     120
   ],
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "gitdoc.commitOnClose": true
 }

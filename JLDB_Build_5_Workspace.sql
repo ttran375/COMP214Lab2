@@ -102,8 +102,29 @@ DROP VIEW REORDERINFO;
 -- already exists in this table. The options should be set to not cycle the
 -- values and not cache any values, and no minimum or maximum values should be
 -- declared.
-CREATE SEQUENCE CUSTOMER_SEQ
-START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCYCLE NOCACHE;
+BEGIN
+    EXECUTE IMMEDIATE 'DROP SEQUENCE MY_ZEROTH_SEQ';
+EXCEPTION
+    WHEN OTHERS THEN
+        NULL;
+END;
+
+DECLARE
+    MAXVALUE NUMBER;
+BEGIN
+    SELECT
+        MAX(CUSTOMER#) INTO MAXVALUE
+    FROM
+        CUSTOMERS;
+    EXECUTE IMMEDIATE 'CREATE SEQUENCE MY_ZEROTH_SEQ START WITH '
+                      || TO_CHAR(MAXVALUE + 1)
+                      || ' INCREMENT BY 1 NOCACHE NOCYCLE';
+END;
+
+SELECT
+    MY_ZEROTH_SEQ.NEXTVAL
+FROM
+    DUAL;
 
 -- 2. Add a new customer row by using the sequence created in Question 1. The
 -- only data currently available for the customer is as follows:
@@ -114,7 +135,7 @@ INSERT INTO CUSTOMERS (
     FIRSTNAME,
     ZIP
 ) VALUES (
-    CUSTOMER_SEQ.NEXTVAL,
+    MY_ZEROTH_SEQ.NEXTVAL,
     'Shoulders',
     'Frank',
     '23567'
@@ -125,7 +146,7 @@ INSERT INTO CUSTOMERS (
 -- possible value should be 0, and the sequence shouldn’t be allowed to cycle.
 -- Name the sequence MY_FIRST_SEQ.
 CREATE SEQUENCE MY_FIRST_SEQ
-START WITH 5 INCREMENT BY -3 MINVALUE 0 NOCYCLE NOCACHE;
+START WITH 5 INCREMENT BY -3 MINVALUE 0 MAXVALUE 5 NOCYCLE NOCACHE;
 
 -- 4. Issue a SELECT statement that displays NEXTVAL for MY_FIRST_SEQ three
 -- times. Because the value isn’t being placed in a table, use the DUAL table

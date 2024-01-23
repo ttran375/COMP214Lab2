@@ -14,8 +14,8 @@ SELECT
 FROM
     CUSTOMERS;
 
-DROP SEQUENCE CUSTOMERS_CUSTOMER#_seq
-CREATE SEQUENCE CUSTOMERS_CUSTOMER#_seq
+DROP SEQUENCE CUSTOMERS_CUSTOMER#_SEQ
+CREATE SEQUENCE CUSTOMERS_CUSTOMER#_SEQ
 START WITH 1020
 INCREMENT BY 1
 NOCYCLE
@@ -25,15 +25,30 @@ SELECT
     *
 FROM
     USER_SEQUENCES
- -- 2. Add a new customer row by using the sequence created in Question 1. The
- -- only data currently available for the customer is as follows:
- -- 2. last name = Shoulders, first name = Frank, and zip = 23567.
-INSERT INTO CUSTOMERS ( CUSTOMER#, LASTNAME, FIRSTNAME, ZIP ) VALUES ( CUSTOMERS_CUSTOMER#_seq.NEXTVAL, 'Shoulders', 'Frank', '23567' );
+    SELECT
+        *
+    FROM
+        CUSTOMERS;
 
+-- 2. Add a new customer row by using the sequence created in Question 1. The
+-- only data currently available for the customer is as follows:
+-- 2. last name = Shoulders, first name = Frank, and zip = 23567.
 SELECT
     *
 FROM
     CUSTOMERS;
+
+INSERT INTO CUSTOMERS (
+    CUSTOMER#,
+    LASTNAME,
+    FIRSTNAME,
+    ZIP
+) VALUES (
+    CUSTOMERS_CUSTOMER#_SEQ.NEXTVAL,
+    'Shoulders',
+    'Frank',
+    '23567'
+);
 
 -- 3. Create a sequence that generates integers starting with the value 5. Each
 -- value should be three less than the previous value generated. The lowest

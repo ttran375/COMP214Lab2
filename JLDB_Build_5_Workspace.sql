@@ -117,7 +117,7 @@ BEGIN
     FROM
         CUSTOMERS;
     EXECUTE IMMEDIATE 'CREATE SEQUENCE MY_ZEROTH_SEQ START WITH '
-                      || TO_CHAR(MAXVALUE + 1)
+                      || TO_CHAR(MAXVALUE)
                       || ' INCREMENT BY 1 NOCACHE NOCYCLE';
 END;
 
@@ -141,6 +141,7 @@ INSERT INTO CUSTOMERS (
     '23567'
 );
 
+SELECT * FROM CUSTOMERS;
 -- 3. Create a sequence that generates integers starting with the value 5. Each
 -- value should be three less than the previous value generated. The lowest
 -- possible value should be 0, and the sequence shouldn’t be allowed to cycle.

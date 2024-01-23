@@ -120,12 +120,13 @@ INSERT INTO CUSTOMERS (
 -- value should be three less than the previous value generated. The lowest
 -- possible value should be 0, and the sequence shouldn’t be allowed to cycle.
 -- Name the sequence MY_FIRST_SEQ.
--- CREATE SEQUENCE my_first_seq
---   START WITH 5
---   INCREMENT BY -3
---   MINVALUE 0
---   NOCYCLE
---   NOCACHE;
+CREATE SEQUENCE MY_FIRST_SEQ
+  START WITH 5
+  INCREMENT BY -3
+  MINVALUE 0
+  NOCYCLE
+  NOCACHE;
+
 -- 4. Issue a SELECT statement that displays NEXTVAL for MY_FIRST_SEQ three
 -- times. Because the value isn’t being placed in a table, use the DUAL table
 -- in the FROM clause of the SELECT statement. What causes the error on the

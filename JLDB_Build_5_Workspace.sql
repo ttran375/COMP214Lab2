@@ -119,7 +119,7 @@ SELECT my_first_seq.NEXTVAL FROM DUAL;
 SELECT my_first_seq.NEXTVAL FROM DUAL; -- Causes an error
 
 -- 5. Change the setting of MY_FIRST_SEQ so that the minimum value that can be generated is -1000.
--- ALTER SEQUENCE my_first_seq MINVALUE -1000;
+ALTER SEQUENCE my_first_seq MINVALUE -1000;
 
 -- 6. Create a private synonym that enables you to reference the MY_FIRST_SEQ object as NUMGEN.
 CREATE SYNONYM numgen FOR my_first_seq;
@@ -128,8 +128,8 @@ CREATE SYNONYM numgen FOR my_first_seq;
 SELECT numgen.CURRVAL FROM DUAL;
 
 -- 7. Delete the NUMGEN synonym and MY_FIRST_SEQ.
--- DROP SYNONYM numgen;
--- DROP SEQUENCE my_first_seq;
+DROP SYNONYM numgen;
+DROP SEQUENCE my_first_seq;
 
 -- 8. Create a bitmap index on the CUSTOMERS table to speed up queries that search for customers based on their state of residence.
 CREATE BITMAP INDEX idx_customers_state ON CUSTOMERS(State);

@@ -1,6 +1,14 @@
-DROP SEQUENCE MY_FIRST_SEQ;
-CREATE SEQUENCE MY_FIRST_SEQ START WITH 1 INCREMENT BY 1;
-SELECT MY_FIRST_SEQ.NEXTVAL FROM dual;
-SELECT MY_FIRST_SEQ.NEXTVAL FROM dual;
-SELECT MY_FIRST_SEQ.NEXTVAL FROM dual;
-SELECT MY_FIRST_SEQ.CURRVAL FROM dual;
+BEGIN
+   FOR c IN (SELECT table_name FROM user_tables) LOOP
+      EXECUTE IMMEDIATE ('DROP TABLE ' || c.table_name || ' CASCADE CONSTRAINTS');
+   END LOOP;
+
+   FOR c IN (SELECT sequence_name FROM user_sequences) LOOP
+      EXECUTE IMMEDIATE ('DROP SEQUENCE ' || c.sequence_name);
+   END LOOP;
+
+   FOR c IN (SELECT object_name, object_type FROM user_objects WHERE object_type IN ('FUNCTION', 'PROCEDURE', 'PACKAGE')) LOOP
+      EXECUTE IMMEDIATE ('DROP ' || c.object_type || ' ' || c.object_name);
+   END LOOP;
+END;
+/

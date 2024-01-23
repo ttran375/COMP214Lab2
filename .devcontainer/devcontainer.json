@@ -13,7 +13,8 @@
         "mycelo.oracle-plsql",
         "xyz.plsql-language",
         "streetsidesoftware.code-spell-checker",
-        "EditorConfig.EditorConfig"
+        "EditorConfig.EditorConfig",
+        "DavidAnson.vscode-markdownlint"
       ]
     }
   }

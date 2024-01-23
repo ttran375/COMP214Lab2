@@ -26,7 +26,8 @@ CREATE VIEW CONTACT AS
         PUBLISHER WITH READ ONLY;
 
 -- 3. Create a view called HOMEWORK13 that includes the columns named Col1 and
--- Col2 from the FIRSTATTEMPT table. Make sure the view is created even if the FIRSTATTEMPT table doesn’t exist.
+-- Col2 from the FIRSTATTEMPT table. Make sure the view is created even if the
+-- FIRSTATTEMPT table doesn’t exist.
 CREATE FORCE VIEW HOMEWORK13 AS
     SELECT
         COL1,
@@ -45,7 +46,8 @@ WHERE
     TABLE_NAME = 'HOMEWORK13';
 
 -- 5. Create a view that lists the ISBN and title for each book in inventory
--- along with the name and phone number of the person to contact if the book needs to be reordered. Name the view REORDERINFO.
+-- along with the name and phone number of the person to contact if the book
+-- needs to be reordered. Name the view REORDERINFO.
 CREATE VIEW REORDERINFO AS
     SELECT
         B.ISBN,
@@ -67,7 +69,8 @@ WHERE
     ISBN = '1059831198';
 
 -- 7. Select one of the books in the REORDERINFO view and try to change its
--- ISBN. Was an error message displayed when performing this step? If so, what was the cause of the error message?
+-- ISBN. Was an error message displayed when performing this step? If so, what
+-- was the cause of the error message?
 UPDATE REORDERINFO
 SET
     ISBN = 'NewISBN'
@@ -75,12 +78,14 @@ WHERE
     ISBN = '1059831198';
 
 -- 8. Delete the record in the REORDERINFO view containing your name. (If you
--- weren’t able to perform #6 successfully, delete one of the contacts already listed in the table.) Was an error message displayed when performing this step? If so, what was the cause of the error message?
+-- weren’t able to perform #6 successfully, delete one of the contacts already
+-- listed in the table.) Was an error message displayed when performing this
+-- step? If so, what was the cause of the error message?
 DELETE FROM REORDERINFO
 WHERE
     PUBLISHERNAME = 'YourName'
- -- 9. Issue a rollback command to undo any changes made with the preceding DML
- --  operations.
+ -- 9. Issue a rollback command to undo any changes made with the preceding
+ -- DML operations.
     ROLLBACK;
 
 -- 10. Delete the REORDERINFO view.
@@ -92,7 +97,6 @@ DROP VIEW REORDERINFO;
 -- Lab Exercises - Database Objects
 -- To perform the following assignments, refer to the tables in the JustLee
 -- Books database.
-
 -- 1. Create a sequence for populating the Customer# column of the CUSTOMERS
 -- table. When setting the start and increment values, keep in mind that data
 -- already exists in this table. The options should be set to not cycle the
@@ -121,11 +125,7 @@ INSERT INTO CUSTOMERS (
 -- possible value should be 0, and the sequence shouldn’t be allowed to cycle.
 -- Name the sequence MY_FIRST_SEQ.
 CREATE SEQUENCE MY_FIRST_SEQ
-  START WITH 5
-  INCREMENT BY -3
-  MINVALUE 0
-  NOCYCLE
-  NOCACHE;
+START WITH 5 INCREMENT BY -3 MINVALUE 0 NOCYCLE NOCACHE;
 
 -- 4. Issue a SELECT statement that displays NEXTVAL for MY_FIRST_SEQ three
 -- times. Because the value isn’t being placed in a table, use the DUAL table
@@ -208,7 +208,6 @@ CREATE INDEX IDX_DAYS_TO_SHIP ON ORDERS (SHIPDATE - ORDERDATE);
 -- implemented.
 
 -- Case Study: City Jail
-
 -- 1. The head DBA has requested the creation of a sequence for the primary key
 -- columns of the Criminals and Crimes tables. After creating the sequences, add
 -- a new criminal named Johnny Capps to the Criminals table by using the correct

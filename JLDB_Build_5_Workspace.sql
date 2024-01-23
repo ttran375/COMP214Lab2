@@ -146,7 +146,7 @@ INSERT INTO CUSTOMERS (
 -- possible value should be 0, and the sequence shouldn’t be allowed to cycle.
 -- Name the sequence MY_FIRST_SEQ.
 CREATE SEQUENCE MY_FIRST_SEQ
-START WITH 5 INCREMENT BY -3 MINVALUE 0 MAXVALUE 5 NOCYCLE NOCACHE;
+START WITH 5 INCREMENT BY -3 MINVALUE 0 MAXVALUE 5 NOCYCLE;
 
 -- 4. Issue a SELECT statement that displays NEXTVAL for MY_FIRST_SEQ three
 -- times. Because the value isn’t being placed in a table, use the DUAL table

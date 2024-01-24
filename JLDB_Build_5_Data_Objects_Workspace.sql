@@ -4,6 +4,26 @@
 -- Lab Exercises - Database Objects
 -- To perform the following assignments, refer to the tables in the JustLee Books database.
 -- 1. Create a sequence for populating the Customer# column of the CUSTOMERS table. When setting the start and increment values, keep in mind that data already exists in this table. The options should be set to not cycle the values and not cache any values, and no minimum or maximum values should be declared.
+SELECT
+    MAX(Customer#)
+FROM
+    CUSTOMERS;
+
+-- MAX(CUSTOMER#)
+-- --------------
+--           1020
+CREATE SEQUENCE CUSTOMERS_CUSTOMER#_seq
+START WITH 1021 INCREMENT BY 1 NOCACHE NOCYCLE;
+
+INSERT INTO
+    CUSTOMERS (CUSTOMER#, LASTNAME, FIRSTNAME, ZIP)
+VALUES
+    (
+        CUSTOMERS_CUSTOMER#_seq.NEXTVAL,
+        'Shoulders',
+        'Frank',
+        '23567'
+    );
 
 -- 2. Add a new customer row by using the sequence created in Question 1. The only data currently available for the customer is as follows: last name = Shoulders, first name = Frank, and zip = 23567.
 -- 3. Create a sequence that generates integers starting with the value 5. Each value should be three less than the previous value generated. The lowest possible value should be 0, and the sequence shouldn’t be allowed to cycle. Name the sequence MY_FIRST_SEQ.

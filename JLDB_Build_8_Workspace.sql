@@ -214,18 +214,22 @@ WHERE
 -- 10. Determine which books were published by the publisher of The Wok Way to 
 -- Cook.
 SELECT
-  b.ISBN,
-  b.Title
+  b2.ISBN,
+  b2.Title,
+  b2.PubDate,
+  b2.Retail,
+  b2.Category
 FROM
-  Books b
-  JOIN Publishers p ON b.PubID = p.PubID
+  Books_2 b2
+  JOIN Publisher p ON b2.PubID = p.PubID
 WHERE
-  b.PubID = (
+  p.PubID = (
     SELECT
-      b2.PubID
+      b.PubID
     FROM
-      Books b2
-      JOIN Titles t ON b2.ISBN = t.ISBN
+      Books_2 b
     WHERE
-      t.Title = 'The Wok Way to Cook'
-  );
+      b.ISBN = '0299282519'
+  )
+ORDER BY
+  b2.PubDate;

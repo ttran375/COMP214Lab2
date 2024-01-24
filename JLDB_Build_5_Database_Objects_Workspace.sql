@@ -9,52 +9,15 @@
 -- already exists in this table. The options should be set to not cycle the
 -- values and not cache any values, and no minimum or maximum values should be
 -- declared.
-SELECT
-    MAX(CUSTOMER#)
-FROM
-    CUSTOMERS;
-
-DROP SEQUENCE CUSTOMERS_CUSTOMER#_SEQ
-CREATE SEQUENCE CUSTOMERS_CUSTOMER#_SEQ
-START WITH 1020
-INCREMENT BY 1
-NOCYCLE
-NOCACHE;
-
-SELECT
-    *
-FROM
-    USER_SEQUENCES
-    SELECT
-        *
-    FROM
-        CUSTOMERS;
 
 -- 2. Add a new customer row by using the sequence created in Question 1. The
 -- only data currently available for the customer is as follows:
 -- 2. last name = Shoulders, first name = Frank, and zip = 23567.
-SELECT
-    *
-FROM
-    CUSTOMERS;
-
-INSERT INTO CUSTOMERS (
-    CUSTOMER#,
-    LASTNAME,
-    FIRSTNAME,
-    ZIP
-) VALUES (
-    CUSTOMERS_CUSTOMER#_SEQ.NEXTVAL,
-    'Shoulders',
-    'Frank',
-    '23567'
-);
 
 -- 3. Create a sequence that generates integers starting with the value 5. Each
 -- value should be three less than the previous value generated. The lowest
 -- possible value should be 0, and the sequence shouldn’t be allowed to cycle.
 -- Name the sequence MY_FIRST_SEQ.
-CREATE SEQUENCE MY_FIRST_SEQ START WITH 5 INCREMENT BY -3 MINVALUE 0 MAXVALUE 5 NOCYCLE;
 
 -- 4. Issue a SELECT statement that displays NEXTVAL for MY_FIRST_SEQ three
 -- times. Because the value isn’t being placed in a table, use the DUAL table
@@ -83,7 +46,6 @@ FROM
 
 -- 5. Change the setting of MY_FIRST_SEQ so that the minimum value that can be
 -- generated is -1000.
-ALTER SEQUENCE MY_FIRST_SEQ MINVALUE -1000;
 
 -- 6. Create a private synonym that enables you to reference the MY_FIRST_SEQ
 -- object as NUMGEN.
@@ -97,7 +59,6 @@ FROM
     DUAL;
 
 -- 7. Delete the NUMGEN synonym and MY_FIRST_SEQ.
-DROP SYNONYM NUMGEN;
 
 DROP SEQUENCE MY_FIRST_SEQ;
 
@@ -109,7 +70,9 @@ CREATE BITMAP INDEX IDX_CUSTOMERS_STATE ON CUSTOMERS (STATE);
 SELECT
     INDEX_NAME
 FROM
-    USER_INDEXES;
+    USER_INDEXES
+WHERE
+    INDEX_NAME = 'IDX_CUSTOMERS_STATE';
 
 -- 8. and then delete the index.
 DROP INDEX IDX_CUSTOMERS_STATE;

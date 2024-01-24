@@ -128,9 +128,10 @@ WHERE
 DELETE FROM REORDERINFO
 WHERE
     PUBLISHERNAME = 'YourName'
-    -- 9. Issue a rollback command to undo any changes made with the preceding
-    -- DML operations.
-    ROLLBACK;
+
+-- 9. Issue a rollback command to undo any changes made with the preceding
+-- DML operations.
+ROLLBACK;
 
 -- 10. Delete the REORDERINFO view.
 DROP VIEW REORDERINFO;

@@ -1,17 +1,15 @@
 -- 1. List the book title and retail price for all books with a retail price lower than the average retail price of all books sold by JustLee Books.
 SELECT
-  title,
-  retail_price
+  b.Title,
+  b.Retail
 FROM
-  books
+  Books b
 WHERE
-  retail_price < (
+  b.Retail < (
     SELECT
-      AVG(retail_price)
+      AVG(b2.Retail)
     FROM
-      books
-    WHERE
-      seller = 'JustLee Books'
+      Books b2
   );
 
 -- 1. Determine which books cost less than the average cost of other books in the same category.

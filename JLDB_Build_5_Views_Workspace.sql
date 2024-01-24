@@ -15,8 +15,6 @@ CREATE VIEW CONTACT AS
     FROM
         PUBLISHER;
 
-select * from CONTACT;
-
 -- 2. Change the CONTACT view so that no users can accidentally perform DML
 -- operations on the view.
 CREATE VIEW CONTACT AS
@@ -26,6 +24,17 @@ CREATE VIEW CONTACT AS
         PHONE   AS CONTACT_PHONE
     FROM
         PUBLISHER WITH READ ONLY;
+-- SQL> CREATE VIEW CONTACT AS
+--     SELECT
+--         NAME      2    3  AS PUBLISHER_NAME,
+--         CONTACT AS CONTACT_PERS  4  ON,
+--         PHONE   AS CONTACT_PHONE
+--     FROM
+--       5    6    7      PUBLISHER WITH READ ONLY;
+-- CREATE VIEW CONTACT AS
+--             *
+-- ERROR at line 1:
+-- ORA-00955: name is already used by an existing object
 
 -- 3. Create a view called HOMEWORK13 that includes the columns named Col1 and
 -- Col2 from the FIRSTATTEMPT table. Make sure the view is created even if the
@@ -36,6 +45,7 @@ CREATE FORCE VIEW HOMEWORK13 AS
         COL2
     FROM
         FIRSTATTEMPT;
+-- Warning: View created with compilation errors.
 
 -- 4. Attempt to view the structure of the HOMEWORK13 view.
 SELECT

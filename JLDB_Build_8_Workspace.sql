@@ -220,23 +220,20 @@ SELECT
   b.Retail,
   b.Category
 FROM
-  Books_2 b
+  Books b
 WHERE
-  CONTAINS (
-    b.ISBN,
-    (
-      SELECT
-        ba.ISBN
-      FROM
-        BookAuthor ba
-      WHERE
-        ba.AuthorID = (
-          SELECT
-            a.AuthorID
-          FROM
-            Author a
-          WHERE
-            CONTAINS ('WOK WAY TO COOK')
-        )
-    )
+  b.PubID = (
+    SELECT
+      PubID
+    FROM
+      Books
+    WHERE
+      ISBN = (
+        SELECT
+          ISBN
+        FROM
+          Books_2
+        WHERE
+          Title = 'THE WOK WAY TO COOK'
+      )
   );

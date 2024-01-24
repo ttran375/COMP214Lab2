@@ -56,6 +56,26 @@ FROM
     ALL_TAB_COLUMNS
 WHERE
     TABLE_NAME = 'HOMEWORK13';
+-- COLUMN_NAME
+-- --------------------------------------------------------------------------------
+-- DATA_TYPE
+-- --------------------------------------------------------------------------------
+-- DATA_LENGTH
+-- -----------
+-- COL1
+-- UNDEFINED
+--           0
+
+-- COL2
+-- UNDEFINED
+--           0
+
+-- COLUMN_NAME
+-- --------------------------------------------------------------------------------
+-- DATA_TYPE
+-- --------------------------------------------------------------------------------
+-- DATA_LENGTH
+-- -----------
 
 -- 5. Create a view that lists the ISBN and title for each book in inventory
 -- along with the name and phone number of the person to contact if the book

@@ -266,7 +266,14 @@ CREATE INDEX IDX_DAYS_TO_SHIP ON ORDERS (SHIPDATE - ORDERDATE);
 -- drawbacks that might affect database performance if the changes are 
 -- implemented.
 -- ## Case Study
--- 1. The head DBA has requested the creation of a sequence for the primary key columns of the Criminals and Crimes tables. After creating the sequences, add a new criminal named Johnny Capps to the Criminals table by using the correct sequence. (Use any values for the remainder of columns.) A crime needs to be added for the criminal, too. Add a row to the Crimes table, referencing the sequence value already generated for the Criminal_ID and using the correct sequence to generate the Crime_ID value. (Use any values for the remainder of columns).
+-- 1. The head DBA has requested the creation of a sequence for the primary key 
+-- columns of the Criminals and Crimes tables. After creating the sequences, add 
+-- a new criminal named Johnny Capps to the Criminals table by using the correct 
+-- sequence. (Use any values for the remainder of columns.) A crime needs to be 
+-- added for the criminal, too. Add a row to the Crimes table, referencing the 
+-- sequence value already generated for the Criminal_ID and using the correct 
+-- sequence to generate the Crime_ID value. (Use any values for the remainder of 
+-- columns).
 CREATE TABLE
     Criminals (
         Criminal_ID NUMBER,

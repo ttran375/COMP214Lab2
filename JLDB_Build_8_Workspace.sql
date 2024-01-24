@@ -1,3 +1,8 @@
+-- # Lab Exercises Module 3 - Subqueries
+-- From: Joan Casteel. 2015. Oracle 12c: SQL, 3rd Edition.
+-- Boston: Course Technology.
+-- Using the Just Lee Books database from P:\pgignac\comp214\JLDB_Build_8.sql and JLDB_Build_12.sql.
+-- Use an sql sub-query statement to answer the following:
 -- 1. List the book title and retail price for all books with a retail price 
 -- lower than the average retail price of all books sold by JustLee Books.
 SELECT

@@ -11,3 +11,6 @@ source ~/.bashrc
 # sqlplus COMP214_W24_nic_x/password@199.212.26.208:1521/SQLD
 # SQL > @script.sql
 # SQL > @JLDB_Build_5.sql
+
+rm instantclient-basiclite-linux.x64-21.1.0.0.0.zip
+rm instantclient-sqlplus-linux.x64-21.1.0.0.0.zip

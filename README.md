@@ -39,7 +39,6 @@ To perform the following assignments, refer to the tables in the JustLee Books d
 8. Create a bitmap index on the CUSTOMERS table to speed up queries that search for customers based on their state of residence. Verify that the index exists, and then delete the index.
 9. Create a B-tree index on the customer’s Lastname column. Verify that the index exists by querying the data dictionary. Remove the index from the database.
 10. Many queries search by the number of days to ship (number of days between the order and shipping dates). Create an index that might improve the performance of these queries.
-
 11. A new table has been requested to support tracking automated emails sent to customers.
     Create the table and add data as described below.
     • Tablename: email_log

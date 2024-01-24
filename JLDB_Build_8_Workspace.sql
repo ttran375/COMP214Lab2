@@ -222,22 +222,7 @@ WHERE
     SELECT
       PubID
     FROM
-      Publisher
+      Books
     WHERE
-      PubID = (
-        SELECT
-          PubID
-        FROM
-          Books
-        WHERE
-          ISBN = (
-            -- Step 2: Find the PubID of the publisher associated with the identified ISBN
-            SELECT
-              PubID
-            FROM
-              Books
-            WHERE
-              ISBN = '0299282519'
-          )
-      )
+      Title = 'The Wok Way to Cook'
   );

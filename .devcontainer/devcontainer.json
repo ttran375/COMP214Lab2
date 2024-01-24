@@ -14,7 +14,8 @@
         "xyz.plsql-language",
         "streetsidesoftware.code-spell-checker",
         "EditorConfig.EditorConfig",
-        "DavidAnson.vscode-markdownlint"
+        "DavidAnson.vscode-markdownlint",
+        "Advanced_Challenge_Workspace.sql"
       ]
     }
   }

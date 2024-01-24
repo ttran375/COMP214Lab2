@@ -15,6 +15,7 @@ FROM
 CREATE SEQUENCE CUSTOMERS_CUSTOMER#_seq
 START WITH 1021 INCREMENT BY 1 NOCACHE NOCYCLE;
 
+-- 2. Add a new customer row by using the sequence created in Question 1. The only data currently available for the customer is as follows: last name = Shoulders, first name = Frank, and zip = 23567.
 INSERT INTO
     CUSTOMERS (CUSTOMER#, LASTNAME, FIRSTNAME, ZIP)
 VALUES
@@ -25,11 +26,37 @@ VALUES
         '23567'
     );
 
--- 2. Add a new customer row by using the sequence created in Question 1. The only data currently available for the customer is as follows: last name = Shoulders, first name = Frank, and zip = 23567.
 -- 3. Create a sequence that generates integers starting with the value 5. Each value should be three less than the previous value generated. The lowest possible value should be 0, and the sequence shouldn’t be allowed to cycle. Name the sequence MY_FIRST_SEQ.
+CREATE SEQUENCE MY_FIRST_SEQ
+START WITH 5 INCREMENT BY -3 MINVALUE 0 MAXVALUE 5 NOCYCLE;
+
 -- 4. Issue a SELECT statement that displays NEXTVAL for MY_FIRST_SEQ three times. Because the value isn’t being placed in a table, use the DUAL table in the FROM clause of the SELECT statement. What causes the error on the third SELECT?
+SELECT
+    MY_FIRST_SEQ.NEXTVAL
+FROM
+    DUAL;
+
+SELECT
+    MY_FIRST_SEQ.NEXTVAL
+FROM
+    DUAL;
+
+SELECT
+    MY_FIRST_SEQ.NEXTVAL
+FROM
+    DUAL;
+
+-- SELECT
+-- *
+-- ERROR at line 1:
+-- ORA-08004: sequence MY_FIRST_SEQ.NEXTVAL goes below MINVALUE and cannot be
+-- instantiated
 -- 5. Change the setting of MY_FIRST_SEQ so that the minimum value that can be generated is -1000.
+ALTER SEQUENCE MY_FIRST_SEQ MINVALUE -1000;
+
 -- 6. Create a private synonym that enables you to reference the MY_FIRST_SEQ object as NUMGEN.
+CREATE SYNONYM NUMGEN FOR MY_FIRST_SEQ;
+
 -- 7. Use a SELECT statement to view the CURRVAL of NUMGEN. Delete the NUMGEN synonym and MY_FIRST_SEQ.
 -- 8. Create a bitmap index on the CUSTOMERS table to speed up queries that search for customers based on their state of residence. Verify that the index exists, and then delete the index.
 -- 9. Create a B-tree index on the customer’s Lastname column. Verify that the index exists by querying the data dictionary. Remove the index from the database.

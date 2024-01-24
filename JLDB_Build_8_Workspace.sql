@@ -20,6 +20,24 @@ WHERE
 
 -- 2. Determine which books cost less than the average cost of other books in 
 -- the same category.
+SELECT
+  b.ISBN,
+  b.Title,
+  b.Category,
+  b.Cost,
+  AVG(b2.Cost) AS AvgCategoryCost
+FROM
+  Books b
+  JOIN Books b2 ON b.Category = b2.Category
+  AND b.ISBN <> b2.ISBN
+GROUP BY
+  b.ISBN,
+  b.Title,
+  b.Category,
+  b.Cost
+HAVING
+  b.Cost < AVG(b2.Cost);
+
 -- 3. Determine which orders were shipped to the same state as order 1014.
 SELECT DISTINCT
   o.Order#
@@ -38,74 +56,110 @@ WHERE
 
 -- 1. Determine which orders had a higher total amount due than order 1008.
 SELECT
-  Order#
+  Order# AS OrderID,
+  TotalAmountDue
 FROM
-  Orders
+  (
+    SELECT
+      o.Order#,
+      o.Customer#,
+      o.OrderDate,
+      o.ShipDate,
+      o.ShipStreet,
+      o.ShipCity,
+      o.ShipState,
+      o.ShipZip,
+      o.ShipCost,
+      SUM(o.ShipCost) OVER (
+        PARTITION BY
+          o.Order#
+      ) AS TotalAmountDue
+    FROM
+      Orders o
+    WHERE
+      o.Order# <> 1008
+  )
 WHERE
   TotalAmountDue > (
     SELECT
-      TotalAmountDue
+      SUM(o.ShipCost) AS TotalAmountDue
     FROM
-      Orders
+      Orders o
     WHERE
-      Order# = 1008
+      o.Order# = 1008
   );
 
 -- 1. Determine which author or authors wrote the books most frequently 
 -- purchased by customers of JustLee Books.
 SELECT
-  Author,
-  COUNT(*) AS PurchaseCount
+  ba.ISBN,
+  b.Title,
+  a.Lname,
+  a.Fname
 FROM
-  BookPurchases
-  JOIN Books ON BookPurchases.BookID = Books.BookID
-  JOIN Authors ON Books.AuthorID = Authors.AuthorID
-WHERE
-  BookPurchases.CustomerID IN (
+  BOOKAUTHOR ba
+  JOIN AUTHOR a ON ba.AuthorID = a.AuthorID
+  JOIN BOOKS b ON ba.ISBN = b.ISBN
+  JOIN (
     SELECT
-      CustomerID
+      oi.ISBN,
+      COUNT(oi.ISBN) AS PurchaseCount
     FROM
-      Customers
-    WHERE
-      Bookstore = 'JustLee Books'
-  )
-GROUP BY
-  Author
+      ORDERITEMS oi
+    GROUP BY
+      oi.ISBN
+    ORDER BY
+      PurchaseCount DESC
+    FETCH FIRST
+      1 ROWS ONLY
+  ) tp ON ba.ISBN = tp.ISBN
 ORDER BY
-  PurchaseCount DESC LIMIT 1;
+  tp.PurchaseCount DESC,
+  a.Lname,
+  a.Fname;
 
 -- 1. List the title of all books in the same category as books previously 
 -- purchased by customer 1007. Don’t include books this customer has already 
 -- purchased.
-SELECT DISTINCT
-  Books.Title
-FROM
-  BookCategories
-  JOIN Books ON BookCategories.BookID = Books.BookID
-  JOIN (
+WITH
+  CustomerPurchasedCategories AS (
     SELECT DISTINCT
-      CategoryID
+      b.Category
     FROM
-      BookCategories
+      CUSTOMERS c
+      JOIN ORDERS o ON c.Customer# = o.Customer#
+      JOIN ORDERITEMS oi ON o.Order# = oi.Order#
+      JOIN BOOKS b ON oi.ISBN = b.ISBN
     WHERE
-      BookID IN (
-        SELECT
-          BookID
-        FROM
-          BookPurchases
-        WHERE
-          CustomerID = 1007
-      )
-  ) AS CustomerCategories ON BookCategories.CategoryID = CustomerCategories.CategoryID
+      c.Customer# = 1007
+  )
+SELECT DISTINCT
+  b.Title
+FROM
+  CUSTOMERS c
+  JOIN ORDERS o ON c.Customer# = o.Customer#
+  JOIN ORDERITEMS oi ON o.Order# = oi.Order#
+  JOIN BOOKS b ON oi.ISBN = b.ISBN
 WHERE
-  Books.BookID NOT IN (
+  b.Category IN (
     SELECT
-      BookID
+      Category
     FROM
-      BookPurchases
+      CustomerPurchasedCategories
+  )
+  AND c.Customer# <> 1007
+  AND b.ISBN NOT IN (
+    SELECT
+      oi.ISBN
+    FROM
+      CUSTOMERS c
+      JOIN ORDERS o ON c.Customer# = o.Customer#
+      JOIN ORDERITEMS oi ON o.Order# = oi.Order#
     WHERE
-      CustomerID = 1007
-  );
+      c.Customer# = 1007
+  )
+ORDER BY
+  b.Title;
 
 -- 1. List the shipping city and state for the order that had the longest 
 -- shipping delay.

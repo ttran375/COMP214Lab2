@@ -1,4 +1,6 @@
-# Lab Exercises Module 2 - Views
+# Lab Exercises Module 2
+
+## Views
 
 From: Joan Casteel. 2015. Oracle 12c: SQL, 3rd Edition.
 
@@ -19,7 +21,7 @@ To perform the following activities, refer to the tables in the JustLee Books da
 9. Issue a rollback command to undo any changes made with the preceding DML operations.
 10. Delete the REORDERINFO view.
 
-# Lab Exercises Module 2 - Database Objects
+## Database Objects
 
 From: Joan Casteel. 2015. Oracle 12c: SQL, 3rd Edition.
 
@@ -39,23 +41,12 @@ To perform the following assignments, refer to the tables in the JustLee Books d
 8. Create a bitmap index on the CUSTOMERS table to speed up queries that search for customers based on their state of residence. Verify that the index exists, and then delete the index.
 9. Create a B-tree index on the customer’s Lastname column. Verify that the index exists by querying the data dictionary. Remove the index from the database.
 10. Many queries search by the number of days to ship (number of days between the order and shipping dates). Create an index that might improve the performance of these queries.
-11. A new table has been requested to support tracking automated emails sent to customers.
-    Create the table and add data as described below.
-    • Tablename: email_log
-    • Columns: emailid (numeric), emaildate (datetime), customer# (numeric)
-    • Primary key: emailid column, define as an Identity Column
-    • Add the following data rows and display resulting rows (if any errors occur, explain
-    why the error is expected)
-    1. Emaildate ¼ current date, customer# ¼ 1007
-    2. Emailid ¼ specify to use the column default value, emaildate ¼ current date,
-    customer# ¼ 1008
-    3. Emailid ¼ 25, emaildate ¼ current date, customer# ¼ 1009
 
-**Advanced Challenge**
+## Advanced Challenge
 
 To perform the following activity, refer to the tables in the JustLee Books database. Using the training you have received and speculating on query needs, determine appropriate uses for indexes and sequences in the JustLee Books database. Assume all tables will grow quite large in the number of rows. Identify at least three sequences and three indexes that can address needed functionality for the JustLee Books database. In a memo to management, you should identify each sequence and index that you propose and the rationale supporting your suggestions. You should also state any drawbacks that might affect database performance if the changes are implemented.
 
-# Case Study
+## Case Study
 
 1. The head DBA has requested the creation of a sequence for the primary key columns of the Criminals and Crimes tables. After creating the sequences, add a new criminal named Johnny Capps to the Criminals table by using the correct sequence. (Use any values for the remainder of columns.) A crime needs to be added for the criminal, too. Add a row to the Crimes table, referencing the sequence value already generated for the Criminal_ID and using the correct sequence to generate the Crime_ID value. (Use any values for the remainder of columns).
 2. The last name, street, and phone number columns of the Criminals table are used quite often in the WHERE clause condition of queries. Create objects that might improve data retrieval for these queries.

@@ -1,4 +1,4 @@
--- # Lab Exercises Module 2 - Views
+-- ## Views
 -- From: Joan Casteel. 2015. Oracle 12c: SQL, 3rd Edition.
 -- Boston: Course Technology.
 -- Chapter 13
@@ -128,10 +128,9 @@ WHERE
 DELETE FROM REORDERINFO
 WHERE
     PUBLISHERNAME = 'YourName'
-
--- 9. Issue a rollback command to undo any changes made with the preceding
--- DML operations.
-ROLLBACK;
+    -- 9. Issue a rollback command to undo any changes made with the preceding
+    -- DML operations.
+    ROLLBACK;
 
 -- 10. Delete the REORDERINFO view.
 DROP VIEW REORDERINFO;

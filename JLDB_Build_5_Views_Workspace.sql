@@ -15,6 +15,8 @@ CREATE VIEW CONTACT AS
     FROM
         PUBLISHER;
 
+select * from CONTACT;
+
 -- 2. Change the CONTACT view so that no users can accidentally perform DML
 -- operations on the view.
 CREATE VIEW CONTACT AS

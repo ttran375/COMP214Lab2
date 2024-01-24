@@ -12,3 +12,11 @@ BEGIN
    END LOOP;
 END;
 /
+
+
+BEGIN
+   FOR t IN (SELECT table_name FROM user_tables) LOOP
+      DBMS_OUTPUT.PUT_LINE('Table Name: ' || t.table_name);
+   END LOOP;
+END;
+/

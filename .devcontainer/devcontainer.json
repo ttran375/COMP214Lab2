@@ -15,7 +15,9 @@
         "streetsidesoftware.code-spell-checker",
         "EditorConfig.EditorConfig",
         "DavidAnson.vscode-markdownlint",
-        "Advanced_Challenge_Workspace.sql"
+        "Advanced_Challenge_Workspace.sql",
+        "inferrinizzard.prettier-sql-vscode",
+        "markdownlint.markdownlint"
       ]
     }
   }

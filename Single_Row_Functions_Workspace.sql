@@ -133,7 +133,7 @@ FROM
 SELECT
   Title,
   Category,
-  TO_CHAR(Retail, '$9999.99') AS "Current Price",
+  TO_CHAR(Retail, '$9999.99') "Current Price",
   TO_CHAR( Retail *
     CASE
       WHEN Category = 'Computer' THEN
@@ -144,7 +144,7 @@ SELECT
         1.25
       ELSE
         1.03
-    END, '$9999.99' )         AS "Revised Price"
+    END, '$9999.99' )         "Revised Price"
 FROM
   Books
 ORDER BY

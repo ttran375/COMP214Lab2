@@ -95,46 +95,42 @@ FETCH FIRST
 
 -- 6. List the title of all books in the same category as books previously purchased by customer 1007. Don’t include books this customer has already purchased.
 -- List titles of books in the same category as books purchased by customer 1007
-SELECT DISTINCT b.Title
-FROM Books_1 b
-JOIN ORDERITEMS oi ON b.ISBN = oi.ISBN
-JOIN ORDERS o ON oi.Order# = o.Order#
-JOIN CUSTOMERS c ON o.Customer# = c.Customer#
-WHERE c.Customer# = 1007
-AND b.Category IN (SELECT DISTINCT b.Category
-                   FROM Books_1 b
-                   JOIN ORDERITEMS oi ON b.ISBN = oi.ISBN
-                   JOIN ORDERS o ON oi.Order# = o.Order#
-                   JOIN CUSTOMERS c ON o.Customer# = c.Customer#
-                   WHERE c.Customer# = 1007)
-AND b.ISBN NOT IN (SELECT DISTINCT b.ISBN
-                   FROM Books_1 b
-                   JOIN ORDERITEMS oi ON b.ISBN = oi.ISBN
-                   JOIN ORDERS o ON oi.Order# = o.Order#
-                   JOIN CUSTOMERS c ON o.Customer# = c.Customer#
-                   WHERE c.Customer# = 1007);
-
-SELECT DISTINCT b.Title
-FROM Orders o, OrderItems oi, Books b
-WHERE o.Order# = oi.Order#
+SELECT DISTINCT
+  b.Title
+FROM
+  Orders o,
+  OrderItems oi,
+  Books b
+WHERE
+  o.Order# = oi.Order#
   AND oi.ISBN = b.ISBN
   AND b.Category IN (
-    SELECT DISTINCT b.Category
-    FROM Orders o, OrderItems oi, Books b
-    WHERE o.Order# = oi.Order#
+    SELECT DISTINCT
+      b.Category
+    FROM
+      Orders o,
+      OrderItems oi,
+      Books b
+    WHERE
+      o.Order# = oi.Order#
       AND oi.ISBN = b.ISBN
       AND o.Customer# = 1007
   )
   AND b.ISBN NOT IN (
-    SELECT ISBN
-    FROM OrderItems
-    WHERE Order# IN (
-      SELECT Order#
-      FROM Orders
-      WHERE Customer# = 1007
-    )
+    SELECT
+      ISBN
+    FROM
+      OrderItems
+    WHERE
+      Order# IN (
+        SELECT
+          Order#
+        FROM
+          Orders
+        WHERE
+          Customer# = 1007
+      )
   );
-
 
 SELECT
   title

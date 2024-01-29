@@ -87,41 +87,24 @@ ORDER BY
 FETCH FIRST 1 ROW ONLY;
 
 -- 6. List the title of all books in the same category as books previously purchased by customer 1007. Don’t include books this customer has already purchased.
-SELECT DISTINCT
-  B.TITLE
-FROM
-  BOOKS B
-  JOIN BOOKAUTHOR BA ON B.ISBN = BA.ISBN
-  JOIN AUTHOR A ON BA.AUTHORID = A.AUTHORID
-WHERE
-  B.CATEGORY IN (
-    SELECT DISTINCT
-      B.CATEGORY
-    FROM
-      CUSTOMERS C
-      JOIN ORDERS O ON C.CUSTOMER# = O.CUSTOMER#
-      JOIN ORDERITEMS OI ON O.ORDER# = OI.ORDER#
-      JOIN BOOKS B ON OI.ISBN = B.ISBN
-    WHERE
-      C.CUSTOMER# = 1007
-  )
-  AND B.ISBN NOT IN (
-    SELECT
-      ISBN
-    FROM
-      ORDERITEMS
-    WHERE
-      ORDER# IN (
-        SELECT
-          ORDER#
-        FROM
-          ORDERS
-        WHERE
-          CUSTOMER# = 1007
-      )
-  )
-ORDER BY
-  B.TITLE;
+WITH CustomerPurchasedCategories AS (
+  SELECT DISTINCT o.Customer#, b.Category
+  FROM Orders o
+  JOIN OrderItems oi ON o.Order# = oi.Order#
+  JOIN Books b ON oi.ISBN = b.ISBN
+  WHERE o.Customer# = 1007
+)
+SELECT DISTINCT b2.Title
+FROM Books_2 b2
+JOIN CustomerPurchasedCategories cpc ON b2.Category = cpc.Category
+WHERE b2.ISBN NOT IN (
+  SELECT oi.ISBN
+  FROM Orders o
+  JOIN OrderItems oi ON o.Order# = oi.Order#
+  WHERE o.Customer# = 1007
+)
+ORDER BY b2.Title;
+
 
 -- 7. List the shipping city and state for the order that had the longest shipping delay.
 SELECT

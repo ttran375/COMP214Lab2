@@ -16,5 +16,5 @@ Use an sql sub-query statement to answer the following:
 6. List the title of all books in the same category as books previously purchased by customer 1007. Don’t include books this customer has already purchased.
 7. List the shipping city and state for the order that had the longest shipping delay.
 8. Determine which customers placed orders for the least expensive book (in terms of regular retail price) carried by JustLee Books.
-9. Determine the number of different customers who have placed an order for books written or cowritten by James Austin. 
+9. Determine the number of different customers who have placed an order for books written or cowritten by James Austin.
 10. Determine which books were published by the publisher of The Wok Way to Cook.

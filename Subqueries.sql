@@ -45,7 +45,8 @@ WHERE
       orders
     WHERE
       order# = 1014
-  );
+  )
+  AND O.ORDER# <> 1014;
 
 -- 4. Determine which orders had a higher total amount due than order 1008.
 SELECT

@@ -48,26 +48,39 @@ WHERE
   AND O.ORDER# <> 1014;
 
 -- 4. Determine which orders had a higher total amount due than order 1008.
+WITH OrderTotals AS (
+  SELECT
+    o.Order#,
+    COALESCE(SUM(b.Retail * oi.Quantity), 0) AS TotalAmountDue
+  FROM
+    Orders o
+    LEFT JOIN OrderItems oi ON o.Order# = oi.Order#
+    LEFT JOIN Books b ON oi.ISBN = b.ISBN
+  GROUP BY
+    o.Order#
+)
 SELECT
-  ORDER# AS ORDERID,
-  CUSTOMER#,
-  ORDERDATE,
-  SHIPDATE,
-  SHIPSTREET,
-  SHIPCITY,
-  SHIPSTATE,
-  SHIPZIP,
-  SHIPCOST
-FROM ORDERS
-WHERE
-  TOTALAMOUNTDUE > (
+  ot.Order#,
+  ot.TotalAmountDue,
+  CASE
+    WHEN ot.TotalAmountDue > o1008.TotalAmountDue THEN 'Higher'
+    WHEN ot.TotalAmountDue < o1008.TotalAmountDue THEN 'Lower'
+    ELSE 'Equal'
+  END AS ComparisonWithOrder1008
+FROM
+  OrderTotals ot
+  CROSS JOIN (
     SELECT
-      SUM(O.SHIPCOST) AS TOTALAMOUNTDUE
+      COALESCE(SUM(b.Retail * oi.Quantity), 0) AS TotalAmountDue
     FROM
-      ORDERS O
+      OrderItems oi
+      JOIN Books b ON oi.ISBN = b.ISBN
     WHERE
-      O.ORDER# = 1008
-  );
+      oi.Order# = 1008
+  ) o1008
+ORDER BY
+  ot.Order#;
+
 
 -- 5. Determine which author or authors wrote the books most frequently purchased by customers of JustLee Books.
 SELECT

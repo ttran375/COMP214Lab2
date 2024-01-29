@@ -67,6 +67,18 @@ HAVING
   );
 
 -- 5. Determine which author or authors wrote the books most frequently purchased by customers of JustLee Books.
+SELECT lname, fname, SUM(quantity)
+FROM bookauthor JOIN author USING(authorid)
+WHERE isbn IN
+(SELECT isbn
+FROM orderitems
+GROUP BY isbn
+HAVING SUM(quantity) =
+(SELECT MAX(COUNT(*))
+FROM orderitems
+GROUP BY isbn));
+
+
 SELECT
     BA.AuthorID,
     A.Lname,

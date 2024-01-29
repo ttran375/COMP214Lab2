@@ -1,3 +1,1 @@
 *.sql linguist-detectable=true
-!JLDB_Build
-!CityJail_8.sql

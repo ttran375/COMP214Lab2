@@ -50,26 +50,15 @@ WHERE
 -- 4. Determine which orders had a higher total amount due than order 1008.
 SELECT
   ORDER# AS ORDERID,
-  TOTALAMOUNTDUE
-FROM
-  (
-    SELECT
-      O.ORDER#,
-      O.CUSTOMER#,
-      O.ORDERDATE,
-      O.SHIPDATE,
-      O.SHIPSTREET,
-      O.SHIPCITY,
-      O.SHIPSTATE,
-      O.SHIPZIP,
-      O.SHIPCOST,
-      SUM(O.SHIPCOST) OVER (
-        PARTITION BY
-          O.ORDER#
-      ) AS TOTALAMOUNTDUE
-    FROM
-      ORDERS O
-  )
+  CUSTOMER#,
+  ORDERDATE,
+  SHIPDATE,
+  SHIPSTREET,
+  SHIPCITY,
+  SHIPSTATE,
+  SHIPZIP,
+  SHIPCOST
+FROM ORDERS
 WHERE
   TOTALAMOUNTDUE > (
     SELECT

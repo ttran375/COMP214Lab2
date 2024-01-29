@@ -4,7 +4,9 @@
 -- 1. Produce a list of all customer names in which the first letter of the
 -- first and last names is in uppercase and the rest are in lowercase.
 SELECT
-  INITCAP(LastName) || ' ' || INITCAP(FirstName) AS CustomerName
+  INITCAP(LastName)
+  || ' '
+  || INITCAP(FirstName) AS CustomerName
 FROM
   Customers;
 
@@ -15,9 +17,11 @@ FROM
 SELECT
   Customer#,
   CASE
-    WHEN Referred IS NULL THEN 'NOT REFERRED'
-    ELSE 'REFERRED'
-  END AS ReferralStatus
+    WHEN Referred IS NULL THEN
+      'NOT REFERRED'
+    ELSE
+      'REFERRED'
+  END       AS ReferralStatus
 FROM
   Customers;
 
@@ -28,14 +32,13 @@ FROM
 -- can involve multiple copies.
 SELECT
   B.Title,
-  TO_CHAR(
-    SUM(OI.Quantity * (B.Retail - B.Cost)),
-    '$9,999.00'
-  ) AS Profit
+  TO_CHAR( SUM(OI.Quantity * (B.Retail - B.Cost)), '$9,999.00' ) AS Profit
 FROM
-  Orders O
-  JOIN OrderItems OI ON O.Order# = OI.Order#
-  JOIN Books B ON OI.ISBN = B.ISBN
+  Orders     O
+  JOIN OrderItems OI
+  ON O.Order# = OI.Order#
+  JOIN Books B
+  ON OI.ISBN = B.ISBN
 WHERE
   O.Order# = 1002
 GROUP BY
@@ -48,17 +51,18 @@ GROUP BY
 -- difference between the retail and cost amounts as a percent of the cost.).
 SELECT
   Title,
-  TO_CHAR(((Retail - Cost) / Cost) * 100, '999') || '%' AS MarkupPercentage
+  TO_CHAR(((Retail - Cost) / Cost) * 100, '999')
+  || '%' AS MarkupPercentage
 FROM
   Books;
 
 -- 5. Display the current day of the week, hour, minutes, and seconds of the
 -- current date setting on the computer you’re using.
 SELECT
-  TO_CHAR(SYSDATE, 'Day') AS DayOfWeek,
+  TO_CHAR(SYSDATE, 'Day')  AS DayOfWeek,
   TO_CHAR(SYSDATE, 'HH24') AS Hour,
-  TO_CHAR(SYSDATE, 'MI') AS Minutes,
-  TO_CHAR(SYSDATE, 'SS') AS Seconds
+  TO_CHAR(SYSDATE, 'MI')   AS Minutes,
+  TO_CHAR(SYSDATE, 'SS')   AS Seconds
 FROM
   dual;
 
@@ -66,15 +70,15 @@ FROM
 -- asterisks so that the width of the displayed Cost field is 12.
 SELECT
   Title,
-  LPAD(TO_CHAR(Cost, '999.99'), 12, '*') AS FormattedCost
+  LPAD(TO_CHAR(Cost, '99.99'), 12, '*') AS FormattedCost
 FROM
   Books;
 
 -- 7. Determine the length of data stored in the ISBN field of the BOOKS table.
 -- Make sure each different length value is displayed only once (not once for
 -- each book).
-SELECT DISTINCT
-  LENGTH(ISBN) AS ISBN_Length
+SELECT
+  DISTINCT LENGTH(ISBN) AS ISBN_Length
 FROM
   BOOKS;
 
@@ -84,8 +88,8 @@ FROM
 -- and age.
 SELECT
   Title,
-  PubDate AS PublicationDate,
-  SYSDATE AS CurrentDate,
+  PubDate                                 AS PublicationDate,
+  SYSDATE                                 AS CurrentDate,
   FLOOR(MONTHS_BETWEEN(SYSDATE, PubDate)) AS AgeInMonths
 FROM
   Books;
@@ -93,7 +97,7 @@ FROM
 -- 9. Determine the calendar date of the next occurrence of Wednesday, based on
 -- today’s date.
 SELECT
-  SYSDATE AS CurrentDate,
+  SYSDATE                        AS CurrentDate,
   NEXT_DAY(SYSDATE, 'WEDNESDAY') AS NextWednesday
 FROM
   dual;
@@ -105,9 +109,11 @@ SELECT
   Customer#,
   SUBSTR(Zip, 3, 2) AS ThirdAndFourthDigitsOfZip,
   CASE
-    WHEN INSTR(TO_CHAR(Customer#), '3') > 0 THEN INSTR(TO_CHAR(Customer#), '3')
-    ELSE NULL
-  END AS PositionOfFirst3
+    WHEN INSTR(TO_CHAR(Customer#), '3') > 0 THEN
+      INSTR(TO_CHAR(Customer#), '3')
+    ELSE
+      NULL
+  END               AS PositionOfFirst3
 FROM
   Customers;
 
@@ -128,15 +134,17 @@ SELECT
   Title,
   Category,
   TO_CHAR(Retail, '$9999.99') AS "Current Price",
-  TO_CHAR(
-    Retail * CASE
-      WHEN Category = 'Computer' THEN 1.10
-      WHEN Category = 'Fitness' THEN 1.15
-      WHEN Category = 'Self Help' THEN 1.25
-      ELSE 1.03
-    END,
-    '$9999.99'
-  ) AS "Revised Price"
+  TO_CHAR( Retail *
+    CASE
+      WHEN Category = 'Computer' THEN
+        1.10
+      WHEN Category = 'Fitness' THEN
+        1.15
+      WHEN Category = 'Self Help' THEN
+        1.25
+      ELSE
+        1.03
+    END, '$9999.99' )         AS "Revised Price"
 FROM
   Books
 ORDER BY

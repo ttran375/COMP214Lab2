@@ -71,21 +71,57 @@ SELECT
     BA.AuthorID,
     A.Lname,
     A.Fname,
+    COUNT(*) AS PurchaseCount
+FROM
+    OrderItems OI
+JOIN
+    Books B ON OI.ISBN = B.ISBN
+JOIN
+    BookAuthor BA ON B.ISBN = BA.ISBN
+JOIN
+    Author A ON BA.AuthorID = A.AuthorID
+GROUP BY
+    BA.AuthorID, A.Lname, A.Fname
+ORDER BY
+    PurchaseCount DESC;
+
+SELECT
+    A.AuthorID,
+    A.Lname,
+    A.Fname,
     (
         SELECT COUNT(*)
         FROM OrderItems OI
         WHERE OI.ISBN IN (
-            SELECT B.ISBN
-            FROM Books B
-            WHERE B.ISBN = BA.ISBN
+            SELECT BA.ISBN
+            FROM BookAuthor BA
+            WHERE BA.AuthorID = A.AuthorID
         )
     ) AS PurchaseCount
 FROM
-    BookAuthor BA
-JOIN
-    Author A ON BA.AuthorID = A.AuthorID
+    Author A
 ORDER BY
     PurchaseCount DESC;
+
+-- SELECT
+--     BA.AuthorID,
+--     A.Lname,
+--     A.Fname,
+--     (
+--         SELECT COUNT(*)
+--         FROM OrderItems OI
+--         WHERE OI.ISBN IN (
+--             SELECT B.ISBN
+--             FROM Books B
+--             WHERE B.ISBN = BA.ISBN
+--         )
+--     ) AS PurchaseCount
+-- FROM
+--     BookAuthor BA
+-- JOIN
+--     Author A ON BA.AuthorID = A.AuthorID
+-- ORDER BY
+--     PurchaseCount DESC;
 
 
 

@@ -67,27 +67,6 @@ HAVING
   );
 
 -- 5. Determine which author or authors wrote the books most frequently purchased by customers of JustLee Books.
-SELECT A.AuthorID, A.Lname, A.Fname, COUNT(OI.ISBN) AS BooksSold
-FROM Author A
-JOIN BookAuthor BA ON A.AuthorID = BA.AuthorID
-JOIN Books B ON BA.ISBN = B.ISBN
-JOIN OrderItems OI ON B.ISBN = OI.ISBN
-GROUP BY A.AuthorID, A.Lname, A.Fname
-ORDER BY BooksSold DESC;
-
-SELECT lname, fname
-FROM bookauthor JOIN author USING(authorid)
-WHERE isbn IN
-(SELECT isbn
-FROM orderitems
-GROUP BY isbn
-HAVING SUM(quantity) =
-(SELECT MAX(COUNT(*))
-FROM orderitems
-GROUP BY isbn));
-
-
-
 SELECT
     A.AuthorID,
     A.Lname,
@@ -104,29 +83,8 @@ SELECT
 FROM
     Author A
 ORDER BY
-    PurchaseCount DESC;
-
--- SELECT
---     BA.AuthorID,
---     A.Lname,
---     A.Fname,
---     (
---         SELECT COUNT(*)
---         FROM OrderItems OI
---         WHERE OI.ISBN IN (
---             SELECT B.ISBN
---             FROM Books B
---             WHERE B.ISBN = BA.ISBN
---         )
---     ) AS PurchaseCount
--- FROM
---     BookAuthor BA
--- JOIN
---     Author A ON BA.AuthorID = A.AuthorID
--- ORDER BY
---     PurchaseCount DESC;
-
-
+    PurchaseCount DESC
+FETCH FIRST 1 ROW ONLY;
 
 -- 6. List the title of all books in the same category as books previously purchased by customer 1007. Don’t include books this customer has already purchased.
 SELECT DISTINCT

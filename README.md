@@ -2,8 +2,7 @@
 
 ## Single Row Functions
 
-To perform the following assigments, refer to the tables in the JustLee
-Books database.
+To perform the following assignments, refer to the tables in the JustLee Books database.
 
 1. Produce a list of all customer names in which the first letter of the first and last names is in uppercase and the rest are in lowercase.
 2. Create a list of all customer numbers along with text indicating whether the customer has been referred by another customer. Display the text “NOT REFERRED” if the customer wasn’t referred to JustLee Books by another customer or “REFERRED” if the customer was referred.
@@ -18,56 +17,15 @@ Books database.
 
 ### Advanced Challenge
 
-Management is proposing to increase the price of each book. The amount
-of the increase will be based on each book’s category, according to the
-following scale: Computer books, 10%; Fitness books, 15%; Self-Help
-books, 25%; all other categories, 3%. Create a list that displays each
-book’s title, category, current retail price, and revised retail price.
-The prices should be displayed with two decimal places. The column
-headings for the output should be as follows: Title, Category, Current
-Price, and Revised Price. Sort the results by category. If there’s more
-than one book in a category, a secondary sort should be performed on the
-book’s title.
-
-Create a document to show management the SELECT statement used to
-generate the results and the results of the statement.
+Management is proposing to increase the price of each book. The amount of the increase will be based on each book’s category, according to the following scale: Computer books, 10%; Fitness books, 15%; Self-Help books, 25%; all other categories, 3%. Create a list that displays each book’s title, category, current retail price, and revised retail price. The prices should be displayed with two decimal places. The column headings for the output should be as follows: Title, Category, Current Price, and Revised Price. Sort the results by category. If there’s more than one book in a category, a secondary sort should be performed on the book’s title. Create a document to show management the SELECT statement used to generate the results and the results of the statement.
 
 ## Case Study
 
-Note: Make sure you have run the CityJail_8.sql script from Chapter 8.
-This script makes all database objects available for completing this
-case study. The following list reflects current data requests from city
-managers. Provide the SQL statement to satisfy each request. Test the
-statements and show execution results.
+Note: Make sure you have run the CityJail_8.sql script from Chapter 8. This script makes all database objects available for completing this case study. The following list reflects current data requests from city managers. Provide the SQL statement to satisfy each request. Test the statements and show execution results.
 
-1. List the following information for all crimes that have a period
-greater than 14 days between the date charged and the hearing date:
-crime ID, classification, date charged, hearing date, and number of
-days between the date charged and the hearing date.
-2. Produce a list showing each active police officer and his or her
-community assignment, indicated by the second letter of the precinct
-code. Display the community description listed in the following
-chart, based on the second letter of the precinct code.
-3. Produce a list of sentencing information to include criminal ID,
-name (displayed in all uppercase letters), sentence ID, sentence
-start date, and length in months of the sentence. The number of
-months should be shown as a whole number. The start date should be
-displayed in the format “December 17, 2009.”
-4. A list of all amounts owed is needed. Create a list showing each
-criminal name, charge ID, total amount owed (fine amount plus court
-fee), amount paid, amount owed, and payment due date. If nothing has
-been paid to date, the amount paid is NULL. Include only criminals
-who owe some amount of money. Display the dollar amounts with a
-dollar sign and two decimals.
-5. Display the criminal name and probation start date for all criminals
-who have a probation period greater than two months. Also, display
-the date that’s two months from the beginning of the probation
-period, which will serve as a review date.
-6. An INSERT statement is needed to support users adding a new appeal.
-Create an INSERT statement using substitution variables. Note that
-users will be entering dates in the format of a two-digit month, a
-two-digit day, and a four-digit year, such as “12 17 2009.” In
-addition, a sequence named APPEALS_ID_SEQ exists to supply values
-for the Appeal_ID column, and the default setting for the Status
-column should take effect (that is, the DEFAULT option on the column
-should be used). Test the statement by adding the following appeal: crime_ID ¼ 25344031, filing date ¼ 02 13 2009, and hearing date ¼ 02 27 2009.
+1. List the following information for all crimes that have a period greater than 14 days between the date charged and the hearing date: crime ID, classification, date charged, hearing date, and number of days between the date charged and the hearing date.
+2. Produce a list showing each active police officer and his or her community assignment, indicated by the second letter of the precinct code. Display the community description listed in the following chart, based on the second letter of the precinct code.
+3. Produce a list of sentencing information to include criminal ID, name (displayed in all uppercase letters), sentence ID, sentence start date, and length in months of the sentence. The number of months should be shown as a whole number. The start date should be displayed in the format “December 17, 2009.”
+4. A list of all amounts owed is needed. Create a list showing each criminal name, charge ID, total amount owed (fine amount plus court fee), amount paid, amount owed, and payment due date. If nothing has been paid to date, the amount paid is NULL. Include only criminals who owe some amount of money. Display the dollar amounts with a dollar sign and two decimals.
+5. Display the criminal name and probation start date for all criminals who have a probation period greater than two months. Also, display the date that’s two months from the beginning of the probation period, which will serve as a review date.
+6. An INSERT statement is needed to support users adding a new appeal. Create an INSERT statement using substitution variables. Note that users will be entering dates in the format of a two-digit month, a two-digit day, and a four-digit year, such as “12 17 2009.” In addition, a sequence named APPEALS_ID_SEQ exists to supply values for the Appeal_ID column, and the default setting for the Status column should take effect (that is, the DEFAULT option on the column should be used). Test the statement by adding the following appeal: crime_ID ¼ 25344031, filing date ¼ 02 13 2009, and hearing date ¼ 02 27 2009.

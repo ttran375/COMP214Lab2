@@ -66,7 +66,7 @@ FROM
 -- asterisks so that the width of the displayed Cost field is 12.
 SELECT
   Title,
-  RPAD('*', 12 - LENGTH(TO_CHAR(Cost)), '*') || TO_CHAR(Cost, '999.99') AS FormattedCost
+  LPAD(TO_CHAR(Cost, '999.99'), 12, '*') AS FormattedCost
 FROM
   Books;
 

@@ -68,103 +68,100 @@ HAVING
 
 -- 5. Determine which author or authors wrote the books most frequently purchased by customers of JustLee Books.
 SELECT
-    A.AuthorID,
-    A.Lname,
-    A.Fname,
-    (
-        SELECT COUNT(*)
-        FROM OrderItems OI
-        WHERE OI.ISBN IN (
-            SELECT BA.ISBN
-            FROM BookAuthor BA
-            WHERE BA.AuthorID = A.AuthorID
-        )
-    ) AS PurchaseCount
+  A.AuthorID,
+  A.Lname,
+  A.Fname,
+  (
+    SELECT
+      COUNT(*)
+    FROM
+      OrderItems OI
+    WHERE
+      OI.ISBN IN (
+        SELECT
+          BA.ISBN
+        FROM
+          BookAuthor BA
+        WHERE
+          BA.AuthorID = A.AuthorID
+      )
+  ) AS PurchaseCount
 FROM
-    Author A
+  Author A
 ORDER BY
-    PurchaseCount DESC
-FETCH FIRST 1 ROW ONLY;
+  PurchaseCount DESC
+FETCH FIRST
+  1 ROW ONLY;
 
 -- 6. List the title of all books in the same category as books previously purchased by customer 1007. Don’t include books this customer has already purchased.
-SELECT DISTINCT
-  B.TITLE
+SELECT
+  title
 FROM
-  BOOKS B
-  JOIN BOOKAUTHOR BA ON B.ISBN = BA.ISBN
-  JOIN AUTHOR A ON BA.AUTHORID = A.AUTHORID
+  books
 WHERE
-  B.CATEGORY IN (
+  category IN (
     SELECT DISTINCT
-      B.CATEGORY
+      category
     FROM
-      CUSTOMERS C
-      JOIN ORDERS O ON C.CUSTOMER# = O.CUSTOMER#
-      JOIN ORDERITEMS OI ON O.ORDER# = OI.ORDER#
-      JOIN BOOKS B ON OI.ISBN = B.ISBN
+      books
+      JOIN orderitems USING (isbn)
+      JOIN orders USING (order#)
     WHERE
-      C.CUSTOMER# = 1007
+      customer# = 1007
   )
-  AND B.ISBN NOT IN (
+  AND isbn NOT IN (
     SELECT
-      ISBN
+      isbn
     FROM
-      ORDERITEMS
+      orders
+      JOIN orderitems USING (order#)
     WHERE
-      ORDER# IN (
-        SELECT
-          ORDER#
-        FROM
-          ORDERS
-        WHERE
-          CUSTOMER# = 1007
-      )
-  )
-ORDER BY
-  B.TITLE;
+      customer# = 1007
+  );
 
 -- 7. List the shipping city and state for the order that had the longest shipping delay.
 SELECT
-  shipcity,
-  shipstate
+  Order#,
+  ShipCity,
+  ShipState,
+  ShipDate - OrderDate AS ShippingDelay
 FROM
-  orders
+  Orders
 WHERE
-  shipdate - orderdate = (
-    SELECT
-      MAX(shipdate - orderdate)
-    FROM
-      orders
-  );
+  ShipDate IS NOT NULL
+ORDER BY
+  ShippingDelay DESC
+FETCH FIRST
+  1 ROWS ONLY;
 
 -- 8. Determine which customers placed orders for the least expensive book (in terms of regular retail price) carried by JustLee Books.
-SELECT
-  customer#
+SELECT DISTINCT
+  c.Customer#,
+  c.FirstName,
+  c.LastName,
+  o.Order#
 FROM
-  customers
-  JOIN orders USING (customer#)
-  JOIN orderitems USING (order#)
-  JOIN books USING (isbn)
-WHERE
-  retail = (
-    SELECT
-      MIN(retail)
-    FROM
-      books
-  );
+  Customers c
+  JOIN Orders o ON c.Customer# = o.Customer#
+  JOIN OrderItems oi ON o.Order# = oi.Order#
+  JOIN Books b ON oi.ISBN = b.ISBN
+ORDER BY
+  b.Retail
+FETCH FIRST
+  1 ROWS ONLY;
 
 -- 9. Determine the number of different customers who have placed an order for books written or cowritten by James Austin.
 SELECT
-  COUNT(DISTINCT C.CUSTOMER#) AS NUMBEROFCUSTOMERS
+  COUNT(DISTINCT c.Customer#) AS NumberOfCustomers
 FROM
-  CUSTOMERS C
-  JOIN ORDERS O ON C.CUSTOMER# = O.CUSTOMER#
-  JOIN ORDERITEMS OI ON O.ORDER# = OI.ORDER#
-  JOIN BOOKAUTHOR BA ON OI.ISBN = BA.ISBN
-  JOIN AUTHOR A ON BA.AUTHORID = A.AUTHORID
+  Customers c
+  JOIN Orders o ON c.Customer# = o.Customer#
+  JOIN OrderItems oi ON o.Order# = oi.Order#
+  JOIN BookAuthor ba ON oi.ISBN = ba.ISBN
+  JOIN Author a ON ba.AuthorID = a.AuthorID
 WHERE
-  A.LNAME = 'AUSTIN'
-  AND A.FNAME = 'JAMES';
+  a.Lname = 'AUSTIN'
+  AND a.Fname = 'JAMES';
 
 -- 10. Determine which books were published by the publisher of The Wok Way to Cook.
 SELECT

@@ -67,7 +67,15 @@ HAVING
   );
 
 -- 5. Determine which author or authors wrote the books most frequently purchased by customers of JustLee Books.
-SELECT lname, fname, SUM(quantity)
+SELECT A.AuthorID, A.Lname, A.Fname, COUNT(OI.ISBN) AS BooksSold
+FROM Author A
+JOIN BookAuthor BA ON A.AuthorID = BA.AuthorID
+JOIN Books B ON BA.ISBN = B.ISBN
+JOIN OrderItems OI ON B.ISBN = OI.ISBN
+GROUP BY A.AuthorID, A.Lname, A.Fname
+ORDER BY BooksSold DESC;
+
+SELECT lname, fname
 FROM bookauthor JOIN author USING(authorid)
 WHERE isbn IN
 (SELECT isbn
@@ -79,23 +87,6 @@ FROM orderitems
 GROUP BY isbn));
 
 
-SELECT
-    BA.AuthorID,
-    A.Lname,
-    A.Fname,
-    COUNT(*) AS PurchaseCount
-FROM
-    OrderItems OI
-JOIN
-    Books B ON OI.ISBN = B.ISBN
-JOIN
-    BookAuthor BA ON B.ISBN = BA.ISBN
-JOIN
-    Author A ON BA.AuthorID = A.AuthorID
-GROUP BY
-    BA.AuthorID, A.Lname, A.Fname
-ORDER BY
-    PurchaseCount DESC;
 
 SELECT
     A.AuthorID,

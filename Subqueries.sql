@@ -69,8 +69,6 @@ FROM
       ) AS TOTALAMOUNTDUE
     FROM
       ORDERS O
-    WHERE
-      O.ORDER# <> 1008
   )
 WHERE
   TOTALAMOUNTDUE > (

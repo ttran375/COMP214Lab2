@@ -6,12 +6,7 @@ SELECT
 FROM
     Books
 WHERE
-    Retail < (
-        SELECT
-            AVG(Retail)
-        FROM
-            Books
-    );
+    Retail < (SELECT AVG(Retail) FROM Books);
 
 -- 2. Determine which books cost less than the average cost of other books in 
 -- the same category.

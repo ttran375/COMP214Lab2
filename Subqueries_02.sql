@@ -13,7 +13,7 @@ FROM
       Books
     GROUP BY
       Category
-  )     B
+  ) B
 WHERE
   A.Category = B.Category
   AND A.Cost < B.Averagecost;

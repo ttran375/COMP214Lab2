@@ -21,4 +21,6 @@ SELECT
 FROM
   Author A
 ORDER BY
-  Purchasecount DESC FETCH FIRST 1 ROW ONLY;
+  Purchasecount DESC
+FETCH FIRST
+  1 ROW ONLY;

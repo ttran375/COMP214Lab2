@@ -8,5 +8,12 @@
     120
   ],
   "editor.formatOnSave": true,
-  "gitdoc.commitOnClose": true
+  "gitdoc.commitOnClose": true,
+  "editor.tabSize": 4,
+  "oracledevtools.formatterSettings": {
+    "1-LineShortIndentSize": 4,
+    "keywordCasing": "Uppercase",
+    "identifierCasing": "Titlecase",
+  },
+  "editor.indentSize": 4
 }

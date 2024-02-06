@@ -1,5 +1,10 @@
 # Lab Exercises Module 3 - Subqueries
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/ttran375/comp214-lab3)
+
+[![Style Check](https://github.com/ttran375/comp214-lab3/actions/workflows/main.yml/badge.svg)](https://github.com/ttran375/comp214-lab3/actions/workflows/main.yml)
+
+
 From: Joan Casteel. 2015. Oracle 12c: SQL, 3rd Edition.
 
 Boston: Course Technology.

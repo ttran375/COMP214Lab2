@@ -16,6 +16,6 @@
   "gitdoc.commitOnClose": true,
   "oracledevtools.formatterSettings": {
     "keywordCasing": "Uppercase",
-    "identifierCasing": "Titlecase"
+    "identifierCasing": "No change"
   }
 }

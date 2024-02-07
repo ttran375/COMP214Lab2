@@ -11,6 +11,9 @@
   "remoteEnv": {
     "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
   },
+  "mounts": [
+    "source=/workspaces/comp214-lab3,target=/tmp/lint,type=bind,consistency=cached"
+  ],
   "customizations": {
     "vscode": {
       "extensions": [

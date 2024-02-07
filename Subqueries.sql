@@ -162,16 +162,31 @@ WHERE
 
 -- 9. Determine the number of different customers who have placed an order for 
 -- books written or cowritten by James Austin.
-SELECT COUNT(DISTINCT c."Customer#") AS num_customers
-FROM Customers c
-JOIN Orders o ON c."Customer#" = o."Customer#"
-JOIN OrderItems oi ON o.Order# = oi.Order#
-WHERE oi.ISBN IN (
-    SELECT ISBN
+SELECT COUNT(DISTINCT Customers."Customer#") AS Numcustomers
+FROM Customers
+INNER JOIN Orders ON Customers."Customer#" = Orders."Customer#"
+INNER JOIN OrderItems ON Orders."Order#" = OrderItems."Order#"
+WHERE OrderItems.Isbn IN (
+    SELECT BookAuthor.Isbn
     FROM BookAuthor
-    WHERE AuthorID IN (
-        SELECT AuthorID
-        FROM Author
-        WHERE Lname = 'AUSTIN' AND Fname = 'JAMES'
-    )
+    WHERE
+        BookAuthor.AuthorID IN (
+            SELECT Author.AuthorID
+            FROM Author
+            WHERE Author.Lname = 'AUSTIN' AND Author.Fname = 'JAMES'
+        )
 );
+
+-- 10. Determine which books were published by the publisher of The Wok Way to 
+-- Cook.
+SELECT Title
+FROM
+    Books
+WHERE
+    Pubid = (
+        SELECT Pubid
+        FROM
+            Books
+        WHERE
+            Title = 'THE WOK WAY TO COOK'
+    );

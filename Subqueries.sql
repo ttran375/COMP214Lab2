@@ -1,22 +1,19 @@
 -- 1. List the book title and retail price for all books with a retail price
 -- lower than the average retail price of all books sold by JustLee Books.
+WITH AvgRetail AS (
+    SELECT AVG(Retail) AS AvgRetail FROM Books
+)
 SELECT
     B.Title,
     B.Retail
 FROM
-    Books B
+    Books B, AvgRetail
 WHERE
-    B.Retail < (SELECT AVG(B2.Retail) FROM Books B2);
+    B.Retail < AvgRetail.AvgRetail;
 
 -- 2. Determine which books cost less than the average cost of other books in 
 -- the same category.
-SELECT
-    B.Title,
-    B.Category,
-    B.Cost
-FROM
-    Books B
-JOIN (
+WITH AvgCostByCategory AS (
     SELECT
         Category,
         AVG(Cost) AS AverageCost
@@ -24,7 +21,14 @@ JOIN (
         Books
     GROUP BY
         Category
-) AS AvgCostByCategory ON B.Category = AvgCostByCategory.Category
+)
+SELECT
+    B.Title,
+    B.Category,
+    B.Cost
+FROM
+    Books B
+JOIN AvgCostByCategory ON B.Category = AvgCostByCategory.Category
 WHERE
     B.Cost < AvgCostByCategory.AverageCost;
 
@@ -83,7 +87,7 @@ GROUP BY
     A.Authorid, A.Lname, A.Fname
 ORDER BY
     PurchaseCount DESC
-FETCH FIRST 1 ROW ONLY;
+LIMIT 1;
 
 -- 6. List the title of all books in the same category as books previously 
 -- purchased by customer 1007. Don’t include books this customer has already 
@@ -125,7 +129,7 @@ WHERE
     Shipdate IS NOT NULL
 ORDER BY
     Shippingdelay DESC
-FETCH FIRST 1 ROWS ONLY;
+LIMIT 1;
 
 -- 8. Determine which customers placed orders for the least expensive book (in 
 -- terms of regular retail price) carried by JustLee Books.
@@ -144,7 +148,7 @@ JOIN
     Books B ON Oi.Isbn = B.Isbn
 ORDER BY
     B.Retail
-FETCH FIRST 1 ROWS ONLY;
+LIMIT 1;
 
 -- 9. Determine the number of different customers who have placed an order for 
 -- books written or cowritten by James Austin.

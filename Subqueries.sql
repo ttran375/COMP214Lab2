@@ -166,8 +166,8 @@ SELECT COUNT(DISTINCT Customers.Customer#) AS Numcustomers
 FROM Customers
 INNER JOIN Orders ON Customers.Customer# = Orders.Customer#
 INNER JOIN OrderItems ON Orders.Order# = OrderItems.Order#
-WHERE OrderItems.Isbn IN (
-    SELECT BookAuthor.Isbn
+WHERE OrderItems.ISBN IN (
+    SELECT BookAuthor.ISBN
     FROM BookAuthor
     WHERE
         BookAuthor.AuthorID IN (

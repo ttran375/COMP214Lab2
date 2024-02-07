@@ -30,31 +30,31 @@ WHERE
     AND A.Cost < B.Averagecost;
 
 -- 3. Determine which orders were shipped to the same state as order 1014.
-SELECT "Order#"
+SELECT Order#
 FROM Orders
 WHERE
     Shipstate = (
         SELECT Shipstate
         FROM Orders
-        WHERE "Order#" = 1014
+        WHERE Order# = 1014
     )
-    AND "Order#" != 1014;
+    AND Order# != 1014;
 
 -- 4. Determine which orders had a higher total amount due than order 1008.
 SELECT
-    "Order#",
+    Order#,
     SUM(Quantity * Paideach) AS Totalamountdue
 FROM
     Orderitems
 GROUP BY
-    "Order#"
+    Order#
 HAVING
     SUM(Quantity * Paideach) > (
         SELECT SUM(Quantity * Paideach)
         FROM
             Orderitems
         WHERE
-            "Order#" = 1008
+            Order# = 1008
     );
 
 -- 5. Determine which author or authors wrote the books most frequently 
@@ -91,7 +91,7 @@ FROM
     Orderitems,
     Books
 WHERE
-    Orders."Order#" = Orderitems."Order#"
+    Orders.Order# = Orderitems.Order#
     AND Orderitems.Isbn = Books.Isbn
     AND Books.Category IN (
         SELECT DISTINCT Books.Category
@@ -100,28 +100,28 @@ WHERE
             Orderitems,
             Books
         WHERE
-            Orders."Order#" = Orderitems."Order#"
+            Orders.Order# = Orderitems.Order#
             AND Orderitems.Isbn = Books.Isbn
-            AND Orders."Customer#" = 1007
+            AND Orders.Customer# = 1007
     )
     AND Books.Isbn NOT IN (
         SELECT Isbn
         FROM
             Orderitems
         WHERE
-            "Order#" IN (
-                SELECT "Order#"
+            Order# IN (
+                SELECT Order#
                 FROM
                     Orders
                 WHERE
-                    "Customer#" = 1007
+                    Customer# = 1007
             )
     );
 
 -- 7. List the shipping city and state for the order that had the longest 
 -- shipping delay.
 SELECT
-    "Order#",
+    Order#,
     Shipcity,
     Shipstate,
     Shipdate - Orderdate AS Shippingdelay
@@ -136,17 +136,17 @@ FETCH FIRST 1 ROWS ONLY;
 -- 8. Determine which customers placed orders for the least expensive book (in 
 -- terms of regular retail price) carried by JustLee Books.
 SELECT
-    C."Customer#",
+    C.Customer#,
     C.LastName,
     C.FirstName
 FROM
     Customers AS C
 INNER JOIN
     Orders AS O
-    ON C."Customer#" = O."Customer#"
+    ON C.Customer# = O.Customer#
 INNER JOIN
     OrderItems AS OI
-    ON O."Order#" = OI."Order#"
+    ON O.Order# = OI.Order#
 WHERE
     OI.ISBN = (
         SELECT B.ISBN
@@ -162,10 +162,10 @@ WHERE
 
 -- 9. Determine the number of different customers who have placed an order for 
 -- books written or cowritten by James Austin.
-SELECT COUNT(DISTINCT Customers."Customer#") AS Numcustomers
+SELECT COUNT(DISTINCT Customers.Customer#) AS Numcustomers
 FROM Customers
-INNER JOIN Orders ON Customers."Customer#" = Orders."Customer#"
-INNER JOIN OrderItems ON Orders."Order#" = OrderItems."Order#"
+INNER JOIN Orders ON Customers.Customer# = Orders.Customer#
+INNER JOIN OrderItems ON Orders.Order# = OrderItems.Order#
 WHERE OrderItems.Isbn IN (
     SELECT BookAuthor.Isbn
     FROM BookAuthor

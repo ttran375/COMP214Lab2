@@ -1,36 +1,33 @@
 -- 1. List the book title and retail price for all books with a retail price
 -- lower than the average retail price of all books sold by JustLee Books.
-WITH AvgRetail AS (
-    SELECT AVG(Retail) AS AvgRetail FROM Books
-)
 SELECT
-    B.Title,
-    B.Retail
+    Title,
+    Retail
 FROM
-    Books B, AvgRetail
+    Books
 WHERE
-    B.Retail < AvgRetail.AvgRetail;
+    Retail < (SELECT AVG(Retail) FROM Books);
 
 -- 2. Determine which books cost less than the average cost of other books in 
 -- the same category.
-WITH AvgCostByCategory AS (
-    SELECT
-        Category,
-        AVG(Cost) AS AverageCost
-    FROM
-        Books
-    GROUP BY
-        Category
-)
 SELECT
-    B.Title,
+    A.Title,
     B.Category,
-    B.Cost
+    A.Cost
 FROM
-    Books B
-JOIN AvgCostByCategory ON B.Category = AvgCostByCategory.Category
+    Books A,
+    (
+        SELECT
+            Category,
+            AVG(Cost) Averagecost
+        FROM
+            Books
+        GROUP BY
+            Category
+    )     B
 WHERE
-    B.Cost < AvgCostByCategory.AverageCost;
+    A.Category = B.Category
+    AND A.Cost < B.Averagecost;
 
 -- 3. Determine which orders were shipped to the same state as order 1014.
 SELECT
@@ -51,7 +48,7 @@ WHERE
 -- 4. Determine which orders had a higher total amount due than order 1008.
 SELECT
     Order#,
-    SUM(Quantity * Paideach) AS TotalAmountDue
+    SUM(Quantity * Paideach)
 FROM
     Orderitems
 GROUP BY
@@ -72,48 +69,64 @@ SELECT
     A.Authorid,
     A.Lname,
     A.Fname,
-    COUNT(*) AS PurchaseCount
+    (
+        SELECT
+            COUNT(*)
+        FROM
+            Orderitems Oi
+        WHERE
+            Oi.Isbn IN (
+                SELECT
+                    Ba.Isbn
+                FROM
+                    Bookauthor Ba
+                WHERE
+                    Ba.Authorid = A.Authorid
+            )
+    ) AS Purchasecount
 FROM
     Author A
-JOIN
-    Bookauthor Ba ON A.Authorid = Ba.Authorid
-JOIN
-    Orderitems Oi ON Ba.Isbn = Oi.Isbn
-JOIN
-    Orders O ON Oi.Order# = O.Order#
-WHERE
-    O.Customer# IN (SELECT Customer# FROM Orders)
-GROUP BY
-    A.Authorid, A.Lname, A.Fname
 ORDER BY
-    PurchaseCount DESC
-LIMIT 1;
+    Purchasecount DESC FETCH FIRST 1 ROW ONLY;
 
 -- 6. List the title of all books in the same category as books previously 
 -- purchased by customer 1007. Don’t include books this customer has already 
 -- purchased.
-SELECT DISTINCT
-    B.Title
+SELECT
+    DISTINCT B.Title
 FROM
-    Orders O
-JOIN
-    Orderitems Oi ON O.Order# = Oi.Order#
-JOIN
-    Books B ON Oi.Isbn = B.Isbn
+    Orders     O,
+    Orderitems Oi,
+    Books      B
 WHERE
-    O.Customer# <> 1007
-AND
-    B.Category IN (
-        SELECT DISTINCT
-            B.Category
+    O.Order# = Oi.Order#
+    AND Oi.Isbn = B.Isbn
+    AND B.Category IN (
+        SELECT
+            DISTINCT B.Category
         FROM
-            Orders O
-        JOIN
-            Orderitems Oi ON O.Order# = Oi.Order#
-        JOIN
-            Books B ON Oi.Isbn = B.Isbn
+            Orders     O,
+            Orderitems Oi,
+            Books      B
         WHERE
-            O.Customer# = 1007
+            O.Order# = Oi.Order#
+            AND Oi.Isbn = B.Isbn
+            AND O.Customer# = 1007
+    )
+    AND B.Isbn NOT IN (
+        SELECT
+            Isbn
+        FROM
+            Orderitems
+        WHERE
+            Order# IN (
+                SELECT
+                    Order#
+                FROM
+                    Orders
+                WHERE
+                    Customer# = 1007
+            )
     );
 
 -- 7. List the shipping city and state for the order that had the longest 
@@ -128,45 +141,43 @@ FROM
 WHERE
     Shipdate IS NOT NULL
 ORDER BY
-    Shippingdelay DESC
-LIMIT 1;
+    Shippingdelay DESC FETCH FIRST 1 ROWS ONLY;
 
 -- 8. Determine which customers placed orders for the least expensive book (in 
 -- terms of regular retail price) carried by JustLee Books.
-SELECT DISTINCT
-    C.Customer#,
+SELECT
+    DISTINCT C.Customer#,
     C.Firstname,
     C.Lastname,
     O.Order#
 FROM
-    Customers C
-JOIN
-    Orders O ON C.Customer# = O.Customer#
-JOIN
-    Orderitems Oi ON O.Order# = Oi.Order#
-JOIN
-    Books B ON Oi.Isbn = B.Isbn
+    Customers  C
+    JOIN Orders O
+    ON C.Customer# = O.Customer#
+    JOIN Orderitems Oi
+    ON O.Order# = Oi.Order#
+    JOIN Books B
+    ON Oi.Isbn = B.Isbn
 ORDER BY
-    B.Retail
-LIMIT 1;
+    B.Retail FETCH FIRST 1 ROWS ONLY;
 
 -- 9. Determine the number of different customers who have placed an order for 
 -- books written or cowritten by James Austin.
-SELECT COUNT(DISTINCT C.Customer#) AS Numberofcustomers
+SELECT
+    COUNT(DISTINCT C.Customer#) AS Numberofcustomers
 FROM
-    Customers C
-JOIN
-    Orders O ON C.Customer# = O.Customer#
-JOIN
-    Orderitems Oi ON O.Order# = Oi.Order#
-JOIN
-    Bookauthor Ba ON Oi.Isbn = Ba.Isbn
-JOIN
-    Author A ON Ba.Authorid = A.Authorid
+    Customers  C
+    JOIN Orders O
+    ON C.Customer# = O.Customer#
+    JOIN Orderitems Oi
+    ON O.Order# = Oi.Order#
+    JOIN Bookauthor Ba
+    ON Oi.Isbn = Ba.Isbn
+    JOIN Author A
+    ON Ba.Authorid = A.Authorid
 WHERE
     A.Lname = 'AUSTIN'
-AND
-    A.Fname = 'JAMES';
+    AND A.Fname = 'JAMES';
 
 -- 10. Determine which books were published by the publisher of The Wok Way to 
 -- Cook.

@@ -135,15 +135,27 @@ FETCH FIRST 1 ROWS ONLY;
 
 -- 8. Determine which customers placed orders for the least expensive book (in 
 -- terms of regular retail price) carried by JustLee Books.
-SELECT c."Customer#", c.LastName, c.FirstName
-FROM Customers c
-INNER JOIN Orders o ON c."Customer#" = o."Customer#"
-INNER JOIN OrderItems oi ON o."Order#" = oi."Order#"
-WHERE oi.ISBN = (
-    SELECT ISBN
-    FROM Books
-    WHERE Retail = (
-        SELECT MIN(Retail)
-        FROM Books
-    )
-);
+SELECT
+    c."Customer#",
+    c.LastName, 
+    c.FirstName
+FROM
+    Customers AS C
+INNER JOIN
+    Orders AS O
+        ON C."Customer#" = O."Customer#"
+INNER JOIN
+    OrderItems AS OI 
+        ON O."Order#" = OI."Order#"
+WHERE
+    OI.ISBN = (
+        SELECT B.ISBN
+        FROM
+            Books AS B
+        WHERE
+            B.Retail = (
+                SELECT MIN(B.Retail)
+                FROM 
+                    Books AS B
+            )
+    );

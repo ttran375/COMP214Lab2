@@ -136,17 +136,17 @@ FETCH FIRST 1 ROWS ONLY;
 -- 8. Determine which customers placed orders for the least expensive book (in 
 -- terms of regular retail price) carried by JustLee Books.
 SELECT
-    c."Customer#",
-    c.LastName, 
-    c.FirstName
+    C."Customer#",
+    C.LastName,
+    C.FirstName
 FROM
     Customers AS C
 INNER JOIN
     Orders AS O
-        ON C."Customer#" = O."Customer#"
+    ON C."Customer#" = O."Customer#"
 INNER JOIN
-    OrderItems AS OI 
-        ON O."Order#" = OI."Order#"
+    OrderItems AS OI
+    ON O."Order#" = OI."Order#"
 WHERE
     OI.ISBN = (
         SELECT B.ISBN
@@ -155,7 +155,25 @@ WHERE
         WHERE
             B.Retail = (
                 SELECT MIN(B.Retail)
-                FROM 
+                FROM
                     Books AS B
             )
     );
+
+-- 9. Determine the number of different customers who have placed an order for 
+-- books written or cowritten by James Austin.
+SELECT
+    COUNT(DISTINCT C.Customer#) AS Numberofcustomers
+FROM
+    Customers  C
+    JOIN Orders O
+    ON C.Customer# = O.Customer#
+    JOIN Orderitems Oi
+    ON O.Order# = Oi.Order#
+    JOIN Bookauthor Ba
+    ON Oi.Isbn = Ba.Isbn
+    JOIN Author A
+    ON Ba.Authorid = A.Authorid
+WHERE
+    A.Lname = 'AUSTIN'
+    AND A.Fname = 'JAMES';

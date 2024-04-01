@@ -1,3 +1,0 @@
-[sqlfluff]
-dialect = oracle
-exclude_rules = RF05,CP02
